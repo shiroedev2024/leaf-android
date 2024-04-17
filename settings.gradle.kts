@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Leaf Android"
+rootProject.name = "leaf-android"
 include(":app")
 include(":library")
