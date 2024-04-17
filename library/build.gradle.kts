@@ -36,6 +36,7 @@ cargo {
     module = "./rust"
     libname = "rust"
     targets = listOf("arm64", "x86_64", "x86", "arm")
+    profile = "debug"
 }
 
 project.afterEvaluate {

@@ -12,3 +12,4 @@ android_logger = "0.13"
 jni = "0.21"
 log = "0.4"
 rustix = { version = "0.38", default-features = false, features = ["std", "pipe", "stdio"] }
+leaf = { git = "https://github.com/shiroedev2024/leaf.git", branch = "master", default-features = false, features = ["default-ring"] }

@@ -7,4 +7,6 @@ public class Native {
     }
 
     public static native void init();
+
+    public static native int run_leaf(String config);
 }

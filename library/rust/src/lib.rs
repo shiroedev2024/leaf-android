@@ -2,23 +2,9 @@ use std::{io, thread};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use jni::JNIEnv;
-use jni::objects::JClass;
+use jni::objects::{JClass, JString};
+use jni::sys::{jint, jstring};
 use log::{info, LevelFilter};
-
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
 
 #[no_mangle]
 pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_Native_init(
@@ -50,4 +36,15 @@ pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_Native
             }
         }
     });
+}
+
+// public static native int run_leaf(String config);
+#[no_mangle]
+pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_Native_runLeaf(
+    mut env: JNIEnv,
+    _class: JClass,
+    config: &JString,
+) -> jint {
+    let config: String = env.get_string(config).unwrap().try_into().unwrap();
+
 }
