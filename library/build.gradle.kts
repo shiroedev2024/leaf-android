@@ -33,10 +33,14 @@ android {
 }
 
 cargo {
-    module = "./rust"
-    libname = "rust"
+    module = "./native"
+    libname = "native"
     targets = listOf("arm64", "x86_64", "x86", "arm")
     profile = "debug"
+    exec = { spec, toolchain ->
+        spec.environment("ANDROID_NDK_HOME", "${System.getenv("HOME")}/Android/Sdk/ndk/26.1.10909125")
+        spec.environment("CLANG_VERSION", "17")
+    }
 }
 
 project.afterEvaluate {
