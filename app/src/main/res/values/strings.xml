@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Leaf Android</string>
+    <string name="grant_vpn_permission">Failed to grant VPN permissiom</string>
 </resources>
