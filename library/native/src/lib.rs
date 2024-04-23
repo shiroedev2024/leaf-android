@@ -2,18 +2,35 @@ use std::{io, thread};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::net::{IpAddr, SocketAddr};
+use std::sync::{Arc, Mutex};
 use jni::{JavaVM, JNIEnv};
 use jni::objects::{JClass, JString};
 use jni::sys::{jboolean, jint, jstring, JNI_FALSE, JNI_TRUE, JNI_VERSION_1_6};
 use log::{error, info, LevelFilter};
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+struct DohConfig {
+    listen: String,
+    server: String,
+    domain: String,
+    path: String,
+    post: bool,
+    fragment: bool,
+    fragment_packets: String,
+    fragment_lengths: String,
+    fragment_intervals: String,
+}
 
 #[allow(non_snake_case)]
 #[no_mangle]
 pub unsafe extern "system" fn JNI_OnLoad(vm: JavaVM, _: *mut std::os::raw::c_void) -> jint {
+    let vm = Arc::new(vm);
+
     // leaf
-    leaf::mobile::callback::android::set_jvm(vm);
+    leaf::mobile::callback::android::set_jvm(vm.clone());
     // doh
-    doh::mobile::callback::android::set_jvm(vm_ptr);
+    doh::mobile::callback::android::set_jvm(vm.clone());
 
     JNI_VERSION_1_6
 }
@@ -137,41 +154,27 @@ pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_LeafVP
 }
 
 #[no_mangle]
-pub extern "system" fn Java_com_github_shiroedev2024_doh_android_library_DohVPNService_runDoh(
+pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_LeafVPNService_runDoh(
     mut env: JNIEnv,
     _class: JClass,
-    listen: JString,
-    server: JString,
-    domain: JString,
-    path: JString,
-    post: bool,
-    fragment: bool,
-    fragment_packets: JString,
-    fragment_lengths: JString,
-    fragment_intervals: JString
+    config: JString
 ) -> jint {
-    let listen: String = env.get_string(&listen).unwrap().into();
-    let server: String = env.get_string(&server).unwrap().into();
-    let domain: String = env.get_string(&domain).unwrap().into();
-    let path: String = env.get_string(&path).unwrap().into();
+    let config: String = env.get_string(&config).unwrap().into();
+    let doh_config: DohConfig = serde_json::from_str(&config).unwrap();
 
-    let listen_config = doh::ListenConfig::Addr(listen.parse().unwrap());
+    let listen_config = doh::ListenConfig::Addr(doh_config.listen.parse().unwrap());
 
-    let server: SocketAddr = server.parse().unwrap();
+    let server: SocketAddr = doh_config.server.parse().unwrap();
     let ip = match server.ip() {
         IpAddr::V4(v4) => v4.to_string(),
         IpAddr::V6(v6) => v6.to_string(),
     };
     let port = server.port();
 
-    let remote_config = if fragment {
-        let fragment_packets = env.get_string(&fragment_packets).unwrap().into();
-        let fragment_lengths = env.get_string(&fragment_lengths).unwrap().into();
-        let fragment_intervals = env.get_string(&fragment_intervals).unwrap().into();
-
-        let (packets_from, packets_to) = parse_fragment_option(fragment_packets).unwrap();
-        let (length_min, length_max) = parse_fragment_option(fragment_lengths).unwrap();
-        let (interval_min, interval_max) = parse_fragment_option(fragment_intervals).unwrap();
+    let remote_config = if doh_config.fragment {
+        let (packets_from, packets_to) = parse_fragment_option(doh_config.fragment_packets).unwrap();
+        let (length_min, length_max) = parse_fragment_option(doh_config.fragment_lengths).unwrap();
+        let (interval_min, interval_max) = parse_fragment_option(doh_config.fragment_intervals).unwrap();
 
         doh::RemoteHost::Fragment(
             ip,
@@ -187,34 +190,29 @@ pub extern "system" fn Java_com_github_shiroedev2024_doh_android_library_DohVPNS
         doh::RemoteHost::Direct(ip, port)
     };
 
-    if let Ok(doh_config) = doh::Config::new(
+    if let Err(e) = doh::run_doh(doh::Config::new(
         listen_config,
         remote_config,
-        domain.as_str(),
+        doh_config.domain.as_str(),
         None,
         None,
-        path.as_str(),
+        doh_config.path.as_str(),
         1,
         10,
-        post,
+        doh_config.post,
         0,
         false
-    ) {
-        if let Err(e) = doh::run_doh(doh_config) {
-            error!(target: "Doh", "{:?}", e);
-            1 as jint
-        } else {
-            0 as jint
-        }
-    } else {
-        error!(target: "Doh", "Failed to parse doh config");
+    ).unwrap()) {
+        error!(target: "Doh", "{:?}", e);
         1 as jint
+    } else {
+        0 as jint
     }
 }
 
 // stop doh
 #[no_mangle]
-pub extern "system" fn Java_com_github_shiroedev2024_doh_android_library_DohVPNService_stopDoh(
+pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_LeafVPNService_stopDoh(
     _env: JNIEnv,
     _class: JClass
 ) -> jboolean {
@@ -226,7 +224,7 @@ pub extern "system" fn Java_com_github_shiroedev2024_doh_android_library_DohVPNS
 
 // is doh running
 #[no_mangle]
-pub extern "system" fn Java_com_github_shiroedev2024_doh_android_library_DohVPNService_isDohRunning(
+pub extern "system" fn Java_com_github_shiroedev2024_leaf_android_library_LeafVPNService_isDohRunning(
     _env: JNIEnv,
     _class: JClass
 ) -> jboolean {

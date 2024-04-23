@@ -60,7 +60,7 @@ public class LeafVPNService extends VpnService {
 	private native boolean isLeafRunning();
 	private native int reloadLeaf();
 	private native boolean stopLeaf();
-	private native int runDoh(String listen, String server, String domain, String path, boolean post, boolean fragment, String fragmentPackets, String fragmentLengths, String fragmentIntervals);
+	private native int runDoh(String config);
 	private native boolean stopDoh();
 	private native boolean isDohRunning();
 
@@ -189,16 +189,17 @@ public class LeafVPNService extends VpnService {
 		new Thread(() -> {
 			// TODO: 4/23/24 check for doh config here
 
-			int result = runDoh(
-					"127.0.0.1:5123",
-					"104.21.233.179:443",
-					"cloudflare-dns.com",
-					"/dns-query",
-					true,
-					true,
-					"0-1",
-					"6-9",
-					"8-12"
+			int result = runDoh("{\n" +
+					"          \"listen\": \"127.0.0.1:5123\",\n" +
+					"          \"server\": \"104.21.233.179:443\",\n" +
+					"          \"domain\": \"cloudflare-dns.com\",\n" +
+					"          \"path\": \"/dns-query\",\n" +
+					"          \"post\": true,\n" +
+					"          \"fragment\": true,\n" +
+					"          \"fragment_packets\": \"0-1\",\n" +
+					"          \"fragment_lengths\": \"6-9\",\n" +
+					"          \"fragment_intervals\": \"8-12\"\n" +
+					"        }\n"
 			);
 			Log.i("LeafVPNService", "run doh with result: " + result);
 		}).start();
