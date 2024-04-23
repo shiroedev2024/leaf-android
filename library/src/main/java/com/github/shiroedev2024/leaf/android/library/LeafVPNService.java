@@ -54,12 +54,16 @@ public class LeafVPNService extends VpnService {
 
 	private boolean networkConnectivityMonitorStarted = false;
 
-	public static native void init();
+	private native void init();
 	private native boolean setProtectSocketCallback(String methodName);
-	public static native int runLeaf(String config);
-	public static native boolean isLeafRunning();
-	public static native int reloadLeaf();
-	public static native boolean stopLeaf();
+	private native int runLeaf(String config);
+	private native boolean isLeafRunning();
+	private native int reloadLeaf();
+	private native boolean stopLeaf();
+	private native int runDoh(String listen, String server, String domain, String path, boolean post, boolean fragment, String fragmentPackets, String fragmentLengths, String fragmentIntervals);
+	private native boolean stopDoh();
+	private native boolean isDohRunning();
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return binder;
@@ -183,6 +187,23 @@ public class LeafVPNService extends VpnService {
 		Log.d("LeafVPNService", "builder established");
 
 		new Thread(() -> {
+			// TODO: 4/23/24 check for doh config here
+
+			int result = runDoh(
+					"127.0.0.1:5123",
+					"104.21.233.179:443",
+					"cloudflare-dns.com",
+					"/dns-query",
+					true,
+					true,
+					"0-1",
+					"6-9",
+					"8-12"
+			);
+			Log.i("LeafVPNService", "run doh with result: " + result);
+		}).start();
+
+		new Thread(() -> {
 			// TODO: 4/21/24 test config here
 			sendDataToActivity("started");
 
@@ -190,16 +211,12 @@ public class LeafVPNService extends VpnService {
 					"\n" +
 					"            loglevel = info\n" +
 					"\n" +
-					"            #logoutput = leaf.log\n" +
 					"\n" +
-					"\n" +
-					"\n" +
-					"            dns-server = 1.1.1.1,8.8.8.8\n" +
+					"            dns-server = 127.0.0.1:5123\n" +
 					"\n" +
 					"            routing-domain-resolve = true\n" +
 					"\n" +
 					"            always-fake-ip = *\n" +
-					"\n" +
 					"\n" +
 					"\n" +
 					"            socks-interface = 127.0.0.1\n" +
@@ -207,34 +224,11 @@ public class LeafVPNService extends VpnService {
 					"            socks-port = 7891\n" +
 					"\n" +
 					"\n" +
-					"\n" +
 					"            tun = " + fd + "\n" +
 					"\n" +
 					"\n" +
-					"\n" +
-					"            doh-interface = 127.0.0.1\n" +
-					"\n" +
-					"            doh-port = 5123\n" +
-					"\n" +
-					"\n" +
-					"\n" +
 					"            [Env]\n" +
-					"\n" +
-					"            #OUTBOUND_INTERFACE=192.168.74.22\n" +
-					"\n" +
-					"            BYPASS_ADDRS=104.21.233.179,104.21.233.180\n" +
-					"\n" +
-					"            ENABLE_IPV6=true\n" +
-					"\n" +
-					"\n" +
-					"\n" +
-					"            [Doh]\n" +
-					"\n" +
-					"            CF = 104.21.233.179, 443, domain=cloudflare-dns.com, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12, path=/dns-query, get=false\n" +
-					"\n" +
-					"            CF2 = 104.21.233.180, 443, domain=cloudflare-dns.com, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12, path=/dns-query, get=false\n" +
-					"\n" +
-					"\n" +
+					"            ENABLE_IPV6=" + enableIpv6 + "\n" +
 					"\n" +
 					"            [Proxy]\n" +
 					"\n" +
@@ -280,6 +274,11 @@ public class LeafVPNService extends VpnService {
 		if (isLeafRunning()) {
 			boolean result = stopLeaf();
 			Log.i("LeafVPNService", "stop leaf with result: " + result);
+		}
+
+		if (isDohRunning()) {
+			boolean result = stopDoh();
+            Log.i("LeafVPNService", "stop doh with result: " + result);
 		}
 
 		sendDataToActivity("stopped");
