@@ -188,39 +188,33 @@ public class LeafVPNService extends VpnService {
 			sendDataToActivity("started");
 
 			int result = runLeaf("[General]\n" +
-					"loglevel = debug\n" +
+					"loglevel = info\n" +
 					"\n" +
-					"dns-server = 127.0.0.1:5323\n" +
+					"dns-server = tcp://127.0.0.1:5353\n" +
 					"routing-domain-resolve = true\n" +
 					"always-fake-ip = *\n" +
 					"\n" +
-					"socks-interface = 127.0.0.1\n" +
-					"socks-port = 1080\n" +
-					"\n" +
-					"http-interface = 127.0.0.1\n" +
-					"http-port = 8080\n" +
+					"tun=" + fd + "\n" +
 					"\n" +
 					"dns-interface = 127.0.0.1\n" +
-					"dns-port = 5323\n" +
-					"tun = " + fd + "\n" +
+					"dns-port = 5353\n" +
 					"\n" +
 					"[Env]\n" +
 					"ENABLE_IPV6=" + enableIpv6 + "\n" +
-					"LOCAL_DNS_CACHE_SIZE=512\n" +
 					"\n" +
 					"[Dns]\n" +
-					"CF1 = doh, 104.16.249.249, 443, domain=cloudflare-dns.com, path=/dns-query, post=true, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12\n" +
-					"CF2 = doh, 104.16.248.249, 443, domain=cloudflare-dns.com, path=/dns-query, post=true, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12\n" +
+					"DOH1 = doh, 104.21.233.179, 443, domain=cloudflare-dns.com, sni=cloudflare-dns.com, path=/dns-query, post=true, fragment=true, fragment-packets=0-1, fragment-length=6-9, fragment-interval=8-12\n" +
+					"DOH2 = doh, 104.21.233.180, 443, domain=cloudflare-dns.com, sni=cloudflare-dns.com, path=/dns-query, post=true, fragment=true, fragment-packets=0-1, fragment-length=6-9, fragment-interval=8-12\n" +
 					"\n" +
 					"[Proxy]\n" +
-					"DIRECT = direct\n" +
-					"FRAGMENT = fragment, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12\n" +
+					"GB1 = trojan, 104.21.233.179, 443, password=none, tls=true, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12, sni=new.myfakefirstdomaincard.top, ws=true, ws-host=new.myfakefirstdomaincard.top, ws-path=/chat, amux=true, amux-max=16, amux-con=4\n" +
+					"GB2 = trojan, 104.21.233.180, 443, password=none, tls=true, fragment=true, fragment-packets=0-1, fragment-length=6-19, fragment-interval=8-12, sni=new.myfakefirstdomaincard.top, ws=true, ws-host=new.myfakefirstdomaincard.top, ws-path=/chat, amux=true, amux-max=16, amux-con=4\n" +
 					"\n" +
 					"[Proxy Group]\n" +
-					"CHAIN = chain, DIRECT, FRAGMENT\n" +
+					"Proxy = failover, GB1, GB2\n" +
 					"\n" +
 					"[Rule]\n" +
-					"FINAL, CHAIN\n");
+					"FINAL, Proxy\n");
 
 			Log.i("LeafVPNService", "start leaf with result: " + result);
 		}).start();
