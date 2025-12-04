@@ -1,5 +1,10 @@
 # Leaf VPN Android
 
+## Downloads
+
+See the [latest release](https://github.com/shiroedev2024/leaf-android/releases/latest) for download
+options.
+
 A demonstration application showcasing how to integrate the Leaf VPN SDK into an Android
 application.
 

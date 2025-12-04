@@ -105,6 +105,29 @@ jobs:
           mkdir -p release/extracted_apks
           unzip -j "release/leaf-vpn-android_${{ steps.version.outputs.VERSION_NAME }}.zip" -d release/extracted_apks
 
+      - name: Generate Downloads Table
+        id: downloads_table
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION_NAME }}"
+          REPO="shiroedev2024/leaf-android"
+          TAG="v$VERSION"
+          
+          # Create markdown table with download links
+          echo "DOWNLOADS_TABLE<<EOF" >> $GITHUB_OUTPUT
+          echo "| Device Type | Architecture | Download |" >> $GITHUB_OUTPUT
+          echo "|------------|--------------|----------|" >> $GITHUB_OUTPUT
+          echo "| **All Devices** (Recommended for most users) | Universal | [Download APK](https://github.com/$REPO/releases/download/$TAG/leaf_vpn_${VERSION}_all.apk) |" >> $GITHUB_OUTPUT
+          echo "| Modern Android Phones and Tablets (64-bit) | arm64-v8a | [Download APK](https://github.com/$REPO/releases/download/$TAG/leaf_vpn_${VERSION}_arm64-v8a.apk) |" >> $GITHUB_OUTPUT
+          echo "| Older Android Phones and Tablets (32-bit) | armeabi-v7a | [Download APK](https://github.com/$REPO/releases/download/$TAG/leaf_vpn_${VERSION}_armeabi-v7a.apk) |" >> $GITHUB_OUTPUT
+          echo "| Intel/AMD Android Tablets (32-bit) | x86 | [Download APK](https://github.com/$REPO/releases/download/$TAG/leaf_vpn_${VERSION}_x86.apk) |" >> $GITHUB_OUTPUT
+          echo "| Intel/AMD Android Tablets (64-bit) | x86_64 | [Download APK](https://github.com/$REPO/releases/download/$TAG/leaf_vpn_${VERSION}_x86_64.apk) |" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Also create a tip section
+          echo "DOWNLOAD_TIP<<EOF" >> $GITHUB_OUTPUT
+          echo "**Tip**: Not sure which to choose? Download the Universal version - it works on all devices but is larger in size." >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -117,12 +140,10 @@ jobs:
             ## Release Notes
             ${{ steps.release_notes.outputs.NOTES }}
             
-            ## Download APKs
-            - **arm64-v8a**: For modern 64-bit Android devices
-            - **armeabi-v7a**: For older 32-bit Android devices
-            - **x86_64**: For 64-bit Android emulators
-            - **x86**: For 32-bit Android emulators
-            - **universal**: Compatible with all device types (larger size)
+            ## Downloads
+            ${{ steps.downloads_table.outputs.DOWNLOADS_TABLE }}
+            
+            ${{ steps.downloads_table.outputs.DOWNLOAD_TIP }}
           draft: false
           prerelease: false
           files: release/extracted_apks/*
