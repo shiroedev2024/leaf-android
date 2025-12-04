@@ -86,9 +86,15 @@ jobs:
       - name: Extract Release Notes
         id: release_notes
         run: |
-          NOTES=$(grep -oP '(?<=name="release_notes">)[^<]+' app/src/main/res/values/strings.xml)
+          # Extract raw notes
+          RAW_NOTES=$(grep -oP '(?<=name="release_notes">)[^<]+' app/src/main/res/values/strings.xml)
+          
+          # Replace \n with actual newlines
+          FORMATTED_NOTES=$(echo "$RAW_NOTES" | sed 's/\\n/\n/g')
+          
+          # Output with EOF delimiter to preserve formatting
           echo "NOTES<<EOF" >> $GITHUB_OUTPUT
-          echo "${NOTES}" >> $GITHUB_OUTPUT
+          echo "$FORMATTED_NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Build APKs
@@ -120,7 +126,7 @@ jobs:
           draft: false
           prerelease: false
           files: release/extracted_apks/*
-          token: ${{ secrets.RELEASE_TOKEN }}  # Use the Personal Access Token instead
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Publish to Server
         if: ${{ success() }}
