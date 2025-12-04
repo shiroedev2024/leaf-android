@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="vpn_service">Leaf VPN Service</string>
-    <string name="vpn_service_description">A Simple VPN powered by Leaf Proxy</string>
-    <string name="stop">Stop</string>
-    <string name="vpn_service_name">VPN Service</string>
-</resources>

@@ -1,25 +1,22 @@
+rootProject.name = "leaf-android"
+
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        maven(url = "https://plugins.gradle.org/m2/")
         mavenCentral()
         gradlePluginPortal()
+        google()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://repo.surfshield.org/repository/maven-public/")
+        }
     }
 }
 
-rootProject.name = "leaf-android"
 include(":app")
-include(":library")

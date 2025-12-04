@@ -1,1 +1,4 @@
 /build
+/release
+google-services.json
+keystore.jks
