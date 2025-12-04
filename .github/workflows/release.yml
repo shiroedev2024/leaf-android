@@ -28,7 +28,7 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       
-      # Cargo cache similar to docker-linux.sh
+      # Cargo cache
       - name: Cache Cargo registry
         uses: actions/cache@v3
         with:
