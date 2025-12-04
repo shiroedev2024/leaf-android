@@ -61,7 +61,7 @@ jobs:
           echo "# API Configuration for Release Uploads" >> release.properties
           echo "upload.api.url=${UPLOAD_API_URL}" >> release.properties
           echo "upload.api.key=${UPLOAD_API_KEY}" >> release.properties
-          echo "upload.source=github-actions" >> release.properties
+          echo "upload.source=direct" >> release.properties
 
       - name: Decode Keystore
         env:
