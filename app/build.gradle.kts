@@ -123,6 +123,7 @@ spotless {
     kotlin {
         target("src/*/java/**/*.kt")
         ktfmt().kotlinlangStyle()
+        licenseHeaderFile(rootProject.file("LICENSE"))
     }
 }
 
