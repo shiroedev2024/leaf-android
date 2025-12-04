@@ -67,6 +67,12 @@ jobs:
         run: |
           echo $ENCODED_KEYSTORE | base64 -d > app/keystore.jks
 
+      - name: Create google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_JSON > app/google-services.json
+
       - name: Extract version info
         id: version
         run: |
