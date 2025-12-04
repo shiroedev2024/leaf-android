@@ -1,0 +1,121 @@
+name: Android Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      
+      # Cargo cache similar to docker-linux.sh
+      - name: Cache Cargo registry
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-registry-
+
+      - name: Cache Cargo git
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-git-
+
+      - name: Create release.properties
+        env:
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          UPLOAD_API_URL: ${{ secrets.UPLOAD_API_URL }}
+          UPLOAD_API_KEY: ${{ secrets.UPLOAD_API_KEY }}
+        run: |
+          echo "storeFile=keystore.jks" > release.properties
+          echo "storePassword=${STORE_PASSWORD}" >> release.properties
+          echo "keyAlias=${KEY_ALIAS}" >> release.properties
+          echo "keyPassword=${KEY_PASSWORD}" >> release.properties
+          echo "" >> release.properties
+          echo "# API Configuration for Release Uploads" >> release.properties
+          echo "upload.api.url=${UPLOAD_API_URL}" >> release.properties
+          echo "upload.api.key=${UPLOAD_API_KEY}" >> release.properties
+          echo "upload.source=github-actions" >> release.properties
+
+      - name: Decode Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo $ENCODED_KEYSTORE | base64 -d > app/keystore.jks
+
+      - name: Extract version info
+        id: version
+        run: |
+          VERSION_NAME=$(grep "app.version.name" version.properties | cut -d'=' -f2)
+          VERSION_CODE=$(grep "app.version.code" version.properties | cut -d'=' -f2)
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_OUTPUT
+          echo "VERSION_CODE=${VERSION_CODE}" >> $GITHUB_OUTPUT
+
+      - name: Extract Release Notes
+        id: release_notes
+        run: |
+          NOTES=$(grep -oP '(?<=name="release_notes">)[^<]+' app/src/main/res/values/strings.xml)
+          echo "NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "${NOTES}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Build APKs
+        run: ./build.sh apk
+
+      - name: Extract APKs from ZIP
+        run: |
+          mkdir -p release/extracted_apks
+          unzip -j "release/leaf-vpn-android_${{ steps.version.outputs.VERSION_NAME }}.zip" -d release/extracted_apks
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION_NAME }}
+          name: Leaf VPN v${{ steps.version.outputs.VERSION_NAME }}
+          body: |
+            Version Code: ${{ steps.version.outputs.VERSION_CODE }}
+            
+            ## Release Notes
+            ${{ steps.release_notes.outputs.NOTES }}
+            
+            ## Download APKs
+            - **arm64-v8a**: For modern 64-bit Android devices
+            - **armeabi-v7a**: For older 32-bit Android devices
+            - **x86_64**: For 64-bit Android emulators
+            - **x86**: For 32-bit Android emulators
+            - **universal**: Compatible with all device types (larger size)
+          draft: false
+          prerelease: false
+          files: release/extracted_apks/*
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Server
+        if: ${{ success() }}
+        run: |
+          # Publish APKs
+          ./build.sh apk --publish
