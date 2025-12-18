@@ -70,6 +70,23 @@ class MainActivity : BaseActivity() {
             }
         }
 
+    private val notificationPermissionLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            permissions ->
+            permissions.entries.forEach { permission ->
+                if (permission.key == android.Manifest.permission.POST_NOTIFICATIONS) {
+                    if (!permission.value) {
+                        Toast.makeText(
+                                this,
+                                R.string.grant_notification_permission,
+                                Toast.LENGTH_SHORT,
+                            )
+                            .show()
+                    }
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -193,22 +210,8 @@ class MainActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun requestNotificationPermission() {
-        val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                permissions ->
-                permissions.entries.forEach { permission ->
-                    if (permission.key == android.Manifest.permission.POST_NOTIFICATIONS) {
-                        if (!permission.value) {
-                            Toast.makeText(
-                                    this,
-                                    R.string.grant_notification_permission,
-                                    Toast.LENGTH_SHORT,
-                                )
-                                .show()
-                        }
-                    }
-                }
-            }
-        requestPermissionLauncher.launch(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS))
+        notificationPermissionLauncher.launch(
+            arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
+        )
     }
 }

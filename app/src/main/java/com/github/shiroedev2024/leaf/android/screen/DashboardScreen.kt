@@ -70,6 +70,7 @@ fun DashboardContent(
     val serviceState by leafViewModel.serviceState.observeAsState()
     val leafState by leafViewModel.leafState.observeAsState()
     val preferencesState by leafViewModel.preferencesState.observeAsState()
+    val connectivityState by leafViewModel.connectivityState.observeAsState()
     val updateState by
         updateViewModel.updateState.observeAsState(UpdateViewModel.UpdateState.Initial)
     var showUpdateDialog by remember { mutableStateOf(false) }
@@ -112,6 +113,14 @@ fun DashboardContent(
                             (preferencesState as LeafViewModel.PreferencesState.Success).preferences
 
                         Column(modifier = Modifier.fillMaxSize()) {
+                            if (connectivityState is LeafViewModel.ConnectivityState.Lost) {
+                                MessageComponent(
+                                    type = MessageType.WARNING,
+                                    message = stringResource(R.string.network_lost_message),
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
                             // handle auto-update
                             if (availableUpdate != null) {
                                 val info = availableUpdate!!

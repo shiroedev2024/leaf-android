@@ -142,4 +142,8 @@
     <string name="update_check_success">لديك أحدث إصدار</string>
     <string name="update_check_manual_error">فشل في التحقق من التحديثات. يرجى المحاولة مرة أخرى.</string>
     <string name="never_checked">لم يتم التحقق مطلقًا</string>
+    <string name="network_lost_title">فقدت الاتصال بالشبكة</string>
+    <string name="network_lost_message">يبدو أن شبكتك مفقودة وليس لديك إنترنت، لذا VPN لا يعمل. ومع ذلك، يحافظ مفتاح الإيقاف على اتصالك آمنًا وسيستمر بمجرد استعادة الوصول إلى الإنترنت.</string>
+    <string name="connectivity_channel_name">اتصال الشبكة</string>
+    <string name="connectivity_channel_description">إشعارات حول حالة اتصال الشبكة</string>
 </resources>

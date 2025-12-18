@@ -142,4 +142,8 @@
     <string name="update_check_success">Sizda eng so\'nggi versiya bor</string>
     <string name="update_check_manual_error">Yangilanishlarni tekshirib bo\'lmadi. Iltimos, qayta urinib ko\'ring.</string>
     <string name="never_checked">Hech qachon tekshirilmagan</string>
+    <string name="network_lost_title">Tarmoq ulanishi uzildi</string>
+    <string name="network_lost_message">Tarmoqingiz yo\'qolganga o\'xshaydi va internetingiz yo\'q, shuning uchun VPN ishlamayapti. Biroq, kill-switch ulanishingizni xavfsiz saqlaydi va internet kirish huquqini qayta olgandan keyin davom etadi.</string>
+    <string name="connectivity_channel_name">Tarmoq ulanishi</string>
+    <string name="connectivity_channel_description">Tarmoq ulanish holati haqida bildirishnomalar</string>
 </resources>

@@ -142,4 +142,8 @@
     <string name="update_check_success">شما آخرین نسخه را دارید</string>
     <string name="update_check_manual_error">بررسی به‌روزرسانی‌ها ناموفق بود. لطفاً دوباره تلاش کنید.</string>
     <string name="never_checked">هرگز بررسی نشده</string>
+    <string name="network_lost_title">اتصال شبکه قطع شد</string>
+    <string name="network_lost_message">به نظر می‌رسد شبکه شما قطع شده و اینترنت ندارید، بنابراین VPN کار نمی‌کند. با این حال، kill-switch اتصال شما را ایمن نگه می‌دارد و پس از بازگشت اینترنت ادامه خواهد یافت.</string>
+    <string name="connectivity_channel_name">اتصال شبکه</string>
+    <string name="connectivity_channel_description">اعلان‌ها درباره وضعیت اتصال شبکه</string>
 </resources>

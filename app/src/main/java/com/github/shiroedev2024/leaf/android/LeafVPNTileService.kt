@@ -25,6 +25,7 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import com.github.shiroedev2024.leaf.android.library.ServiceManagement
+import com.github.shiroedev2024.leaf.android.library.delegate.ConnectivityChangeListener
 import com.github.shiroedev2024.leaf.android.library.delegate.LeafListener
 import com.github.shiroedev2024.leaf.android.library.delegate.ServiceListener
 
@@ -32,6 +33,10 @@ class LeafVPNTileService : TileService() {
 
     private val leafListener =
         object : LeafListener {
+            override fun onStarting() {
+                Log.d(TAG, "Service starting")
+            }
+
             override fun onStartSuccess() {
                 Log.d(TAG, "Service started")
                 updateTileState()
@@ -76,6 +81,17 @@ class LeafVPNTileService : TileService() {
             }
         }
 
+    private val connectivityListener =
+        object : ConnectivityChangeListener {
+            override fun onConnectivityRecovered() {
+                Log.d(TAG, "Connectivity recovered")
+            }
+
+            override fun onConnectivityLost() {
+                Log.d(TAG, "Connectivity lost")
+            }
+        }
+
     override fun onClick() {
         super.onClick()
         toggleVPN()
@@ -86,6 +102,7 @@ class LeafVPNTileService : TileService() {
 
         ServiceManagement.getInstance().addServiceListener(serviceListener)
         ServiceManagement.getInstance().addLeafListener(leafListener)
+        ServiceManagement.getInstance().addConnectivityChangeListener(connectivityListener)
 
         ServiceManagement.getInstance().bindService(this)
 
@@ -97,6 +114,7 @@ class LeafVPNTileService : TileService() {
 
         ServiceManagement.getInstance().removeServiceListener(serviceListener)
         ServiceManagement.getInstance().removeLeafListener(leafListener)
+        ServiceManagement.getInstance().removeConnectivityChangeListener(connectivityListener)
 
         ServiceManagement.getInstance().unbindService(this)
 

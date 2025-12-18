@@ -142,4 +142,8 @@
     <string name="update_check_success">En son sürüme sahipsiniz</string>
     <string name="update_check_manual_error">Güncellemeler kontrol edilemedi. Lütfen tekrar deneyin.</string>
     <string name="never_checked">Hiç kontrol edilmedi</string>
+    <string name="network_lost_title">Ağ Bağlantısı Kesildi</string>
+    <string name="network_lost_message">Ağınız kaybolmuş gibi görünüyor ve internetiniz yok, bu nedenle VPN çalışmıyor. Ancak, kill-switch bağlantınızı güvende tutuyor ve internet erişiminizi geri kazandığınızda devam edecek.</string>
+    <string name="connectivity_channel_name">Ağ Bağlantısı</string>
+    <string name="connectivity_channel_description">Ağ bağlantısı durumu hakkında bildirimler</string>
 </resources>

@@ -21,6 +21,7 @@
 package com.github.shiroedev2024.leaf.android
 
 import android.content.Context
+import android.util.Log
 import com.zeugmasolutions.localehelper.LocaleAwareApplication
 
 class MainApplication : LocaleAwareApplication() {
@@ -52,5 +53,11 @@ class MainApplication : LocaleAwareApplication() {
         super.onCreate()
 
         appContext = applicationContext
+
+        if (isMainProcess(appContext)) {
+            Log.d("MainApplication", "Main process")
+        } else {
+            Log.d("MainApplication", "Not main process")
+        }
     }
 }

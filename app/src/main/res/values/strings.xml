@@ -142,4 +142,8 @@
     <string name="update_check_success">You have the latest version</string>
     <string name="update_check_manual_error">Failed to check for updates. Please try again.</string>
     <string name="never_checked">Never checked</string>
+    <string name="network_lost_title">Network Connection Lost</string>
+    <string name="network_lost_message">It seems your network is lost and you don\'t have internet, so the VPN is not working. However, the kill-switch keeps your connection secured and will continue once you regain internet access.</string>
+    <string name="connectivity_channel_name">Network Connectivity</string>
+    <string name="connectivity_channel_description">Notifications about network connectivity status</string>
 </resources>

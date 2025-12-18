@@ -63,7 +63,7 @@ fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier)
                             outboundInfo = outboundInfo,
                             onSelect = { leafViewModel.changeSelectedOutbound(outboundInfo.name) },
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
             }
@@ -98,7 +98,7 @@ fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier)
 @Composable
 fun OutboundCard(outboundInfo: OutboundInfo, onSelect: () -> Unit, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.fillMaxWidth().clickable(onClick = onSelect).padding(vertical = 4.dp),
+        modifier = modifier.fillMaxWidth().clickable(onClick = onSelect).padding(vertical = 8.dp),
         shape = RoundedCornerShape(12.dp),
         colors =
             CardDefaults.cardColors(
@@ -108,20 +108,25 @@ fun OutboundCard(outboundInfo: OutboundInfo, onSelect: () -> Unit, modifier: Mod
             ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
-        Text(
-            text = outboundInfo.name.parseAsCountryInfo(),
-            modifier = Modifier.padding(16.dp),
-            textAlign = TextAlign.Center,
-            style =
-                if (outboundInfo.isSelected) {
-                    MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                } else {
-                    MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
-        )
+        Box(
+            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(horizontal = 16.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            Text(
+                text = outboundInfo.name.parseAsCountryInfo(),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start,
+                style =
+                    if (outboundInfo.isSelected) {
+                        MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    },
+            )
+        }
     }
 }

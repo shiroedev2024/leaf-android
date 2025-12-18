@@ -30,6 +30,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.shiroedev2024.leaf.android.library.ApiClient
 import com.github.shiroedev2024.leaf.android.library.LeafException
 import com.github.shiroedev2024.leaf.android.library.ServiceManagement
+import com.github.shiroedev2024.leaf.android.library.delegate.ConnectivityChangeListener
 import com.github.shiroedev2024.leaf.android.library.delegate.LeafListener
 import com.github.shiroedev2024.leaf.android.library.delegate.ServiceListener
 import com.github.shiroedev2024.leaf.android.library.delegate.SubscriptionCallback
@@ -68,6 +69,10 @@ class LeafViewModel : ViewModel() {
         MutableLiveData(MemoryLoggerState.Initial)
     val memoryLoggerState: LiveData<MemoryLoggerState> = _memoryLoggerState
 
+    private var _connectivityState: MutableLiveData<ConnectivityState> =
+        MutableLiveData(ConnectivityState.Connected)
+    val connectivityState: LiveData<ConnectivityState> = _connectivityState
+
     private var _outbounds: MutableStateFlow<SnapshotStateList<OutboundInfo>> =
         MutableStateFlow(mutableStateListOf())
     val outbounds: StateFlow<SnapshotStateList<OutboundInfo>> = _outbounds
@@ -81,6 +86,10 @@ class LeafViewModel : ViewModel() {
 
     private val leafListener =
         object : LeafListener {
+            override fun onStarting() {
+                _leafState.value = LeafState.Loading
+            }
+
             override fun onStartSuccess() {
                 _leafState.value = LeafState.Started
 
@@ -162,6 +171,10 @@ class LeafViewModel : ViewModel() {
 
     private val subscriptionCallback =
         object : SubscriptionCallback {
+            override fun onSubscriptionUpdating() {
+                _subscriptionState.value = SubscriptionState.Fetching
+            }
+
             override fun onSubscriptionSuccess() {
                 _subscriptionState.value = SubscriptionState.Success
                 getPreferences()
@@ -172,9 +185,23 @@ class LeafViewModel : ViewModel() {
             }
         }
 
+    private val connectivityCallback =
+        object : ConnectivityChangeListener {
+            override fun onConnectivityRecovered() {
+                Log.d("LeafAndroid", "Connectivity recovered")
+                _connectivityState.value = ConnectivityState.Connected
+            }
+
+            override fun onConnectivityLost() {
+                Log.d("LeafAndroid", "Connectivity lost")
+                _connectivityState.value = ConnectivityState.Lost
+            }
+        }
+
     fun initListeners() {
         ServiceManagement.getInstance().addLeafListener(leafListener)
         ServiceManagement.getInstance().addServiceListener(serviceListener)
+        ServiceManagement.getInstance().addConnectivityChangeListener(connectivityCallback)
     }
 
     override fun onCleared() {
@@ -182,6 +209,7 @@ class LeafViewModel : ViewModel() {
 
         ServiceManagement.getInstance().removeServiceListener(serviceListener)
         ServiceManagement.getInstance().removeLeafListener(leafListener)
+        ServiceManagement.getInstance().removeConnectivityChangeListener(connectivityCallback)
 
         stopLogger()
         Log.d("LeafAndroid", "onCleared")
@@ -401,5 +429,12 @@ class LeafViewModel : ViewModel() {
         data object Reloaded : LeafState()
 
         data class Error(val error: String) : LeafState()
+    }
+
+    // ConnectivityState
+    sealed class ConnectivityState {
+        data object Connected : ConnectivityState()
+
+        data object Lost : ConnectivityState()
     }
 }

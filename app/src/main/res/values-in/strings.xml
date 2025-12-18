@@ -142,4 +142,8 @@
     <string name="update_check_success">Anda memiliki versi terbaru</string>
     <string name="update_check_manual_error">Gagal memeriksa pembaruan. Silakan coba lagi.</string>
     <string name="never_checked">Tidak pernah diperiksa</string>
+    <string name="network_lost_title">Koneksi Jaringan Terputus</string>
+    <string name="network_lost_message">Sepertinya jaringan Anda terputus dan Anda tidak memiliki internet, jadi VPN tidak bekerja. Namun, kill-switch menjaga koneksi Anda tetap aman dan akan berlanjut setelah Anda mendapatkan kembali akses internet.</string>
+    <string name="connectivity_channel_name">Konektivitas Jaringan</string>
+    <string name="connectivity_channel_description">Notifikasi tentang status konektivitas jaringan</string>
 </resources>

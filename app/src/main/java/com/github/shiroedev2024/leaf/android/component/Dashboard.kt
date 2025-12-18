@@ -20,6 +20,7 @@
  */
 package com.github.shiroedev2024.leaf.android.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -89,18 +91,28 @@ fun ConnectionButton(
                 leafState != LeafViewModel.LeafState.Reloaded,
         onClick = onClick,
     ) {
-        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             if (leafState == LeafViewModel.LeafState.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp).padding(end = 8.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
+                Box(
+                    modifier =
+                        Modifier.size(24.dp).padding(end = 8.dp).align(Alignment.CenterVertically),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        strokeWidth = 2.dp,
+                    )
+                }
             } else {
                 buttonData.icon?.let {
                     Icon(
                         imageVector = it,
                         contentDescription = buttonData.label,
-                        modifier = Modifier.size(24.dp).padding(end = 8.dp),
+                        modifier =
+                            Modifier.size(24.dp)
+                                .padding(end = 8.dp)
+                                .align(Alignment.CenterVertically),
                     )
                 }
             }

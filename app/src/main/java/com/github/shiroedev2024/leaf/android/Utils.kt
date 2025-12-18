@@ -20,8 +20,10 @@
  */
 package com.github.shiroedev2024.leaf.android
 
+import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
+import android.os.Process
 import android.util.Log
 import com.neovisionaries.i18n.CountryCode
 import java.util.Date
@@ -187,4 +189,31 @@ object Utils {
             false
         }
     }
+}
+
+/**
+ * Determines if the current process is the main application process.
+ *
+ * This function retrieves the current process ID using [Process.myPid] and uses the
+ * [ActivityManager] to inspect all running app processes. It checks if the process with the
+ * matching PID has a process name equal to the application's package name, indicating it is the
+ * main process. If no matching process is found, it defaults to assuming it is the main process.
+ *
+ * Note: This relies on [ActivityManager.getRunningAppProcesses], which may have privacy
+ * restrictions on newer Android versions (API 29+), but is suitable for internal app process
+ * detection.
+ *
+ * @param context The application context, used to retrieve the [ActivityManager] service and
+ *   package name.
+ * @return `true` if the current process is the main process, `false` otherwise.
+ */
+fun isMainProcess(context: Context): Boolean {
+    val myPid = Process.myPid()
+    val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    for (processInfo in activityManager.runningAppProcesses ?: emptyList()) {
+        if (processInfo.pid == myPid) {
+            return processInfo.processName == context.packageName
+        }
+    }
+    return true
 }

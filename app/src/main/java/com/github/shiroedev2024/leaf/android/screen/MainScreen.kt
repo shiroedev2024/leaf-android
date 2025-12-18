@@ -28,6 +28,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -134,6 +135,8 @@ fun MainScreen(
         context.startActivity(intent)
     }
 
+    val serviceState by leafViewModel.serviceState.observeAsState()
+
     Scaffold(
         topBar = {
             when (currentRoute) {
@@ -170,7 +173,10 @@ fun MainScreen(
         },
         bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            if (currentRoute == Screen.Profile.route) {
+            if (
+                currentRoute == Screen.Profile.route &&
+                    serviceState == LeafViewModel.ServiceState.Connected
+            ) {
                 FloatingActionButton(onClick = { importFromClipboard() }) {
                     Icon(
                         imageVector =
