@@ -131,7 +131,7 @@
     <string name="load_defaults_description">Setel ulang semua pengaturan ke nilai default.</string>
     <string name="load_defaults_confirm_title">Muat Pengaturan Default?</string>
     <string name="load_defaults_confirm_message">Ini akan mengatur ulang semua pengaturan ke nilai default. Apakah Anda yakin ingin melanjutkan?</string>
-    <string name="release_notes">Perbarui inti leaf\nTingkatkan stabilitas koneksi\nTambahkan kemampuan untuk mem-bypass atau memblokir geoip/geosites\nPerbaiki beberapa masalah crash</string>
+    <string name="release_notes">Perbarui Leaf Core\nPerbarui aset\nMengimplementasikan pemantauan konektivitas\nTingkatkan layanan QUIC tile</string>
     <string name="app_updates">Pembaruan Aplikasi</string>
     <string name="check_for_updates">Periksa Pembaruan</string>
     <string name="check_for_updates_description">Periksa secara manual apakah ada versi Leaf VPN yang lebih baru tersedia.</string>

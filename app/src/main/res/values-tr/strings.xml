@@ -131,7 +131,7 @@
     <string name="load_defaults_description">Tüm ayarları varsayılan değerlerine sıfırlayın.</string>
     <string name="load_defaults_confirm_title">Varsayılan Ayarları Yükle?</string>
     <string name="load_defaults_confirm_message">Bu, tüm ayarları varsayılan değerlerine sıfırlayacaktır. Devam etmek istediğinizden emin misiniz?</string>
-    <string name="release_notes">Leaf çekirdeğini güncelle\nBağlantı stabilitesini iyileştir\nGeoip/geosites\'i atlama veya engelleme yeteneği ekle\nBazı çökme sorunlarını düzelt</string>
+    <string name="release_notes">Leaf Core\'u Güncelle\nVarlıkları güncelle\nBağlantı izlemesini uygula\nQUIC tile servisini geliştir</string>
     <string name="app_updates">Uygulama Güncellemeleri</string>
     <string name="check_for_updates">Güncelleştirmeleri Kontrol Et</string>
     <string name="check_for_updates_description">Leaf VPN için daha yeni bir sürüm olup olmadığını manuel olarak kontrol edin.</string>

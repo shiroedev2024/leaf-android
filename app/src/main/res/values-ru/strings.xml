@@ -131,7 +131,7 @@
     <string name="load_defaults_description">Сбросить все настройки к значениям по умолчанию.</string>
     <string name="load_defaults_confirm_title">Загрузить Настройки По Умолчанию?</string>
     <string name="load_defaults_confirm_message">Это сбросит все настройки к значениям по умолчанию. Вы уверены, что хотите продолжить?</string>
-    <string name="release_notes">Обновить ядро Leaf\nУлучшить стабильность соединения\nДобавить возможность обхода или блокировки geoip/geosites\nИсправить некоторые проблемы с падениями</string>
+    <string name="release_notes">Обновить ядро Leaf\nОбновить ассеты\nРеализовать мониторинг подключения\nУлучшить сервис QUIC tile</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="check_for_updates">Проверить обновления</string>
     <string name="check_for_updates_description">Вручную проверьте, доступна ли более новая версия Leaf VPN.</string>

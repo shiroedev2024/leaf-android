@@ -131,7 +131,7 @@
     <string name="load_defaults_description">Reset all settings to their default values.</string>
     <string name="load_defaults_confirm_title">Load Default Settings?</string>
     <string name="load_defaults_confirm_message">This will reset all settings to their default values. Are you sure you want to continue?</string>
-    <string name="release_notes">Update leaf core\nImprove connection stability\nAdd ability to bypass or block geoip/geosites\nFix some crash issues</string>
+    <string name="release_notes">Update leaf Core\nUpdate assets\nImplement connectivity monitoring\nEnhance quic tile service</string>
     <string name="app_updates">App Updates</string>
     <string name="check_for_updates">Check for Updates</string>
     <string name="check_for_updates_description">Manually check if a newer version of Leaf VPN is available.</string>

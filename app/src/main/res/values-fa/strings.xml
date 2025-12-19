@@ -131,7 +131,7 @@
     <string name="load_defaults_description">بازنشانی همه تنظیمات به مقادیر پیش‌فرض.</string>
     <string name="load_defaults_confirm_title">بارگذاری تنظیمات پیش‌فرض؟</string>
     <string name="load_defaults_confirm_message">این کار همه تنظیمات را به مقادیر پیش‌فرض بازنشانی می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
-    <string name="release_notes">به‌روزرسانی هسته برگ\nبهبود پایداری اتصال\nافزایش قابلیت دور زدن یا مسدود کردن geoip/geosites\nرفع برخی مشکلات کرش کردن</string>
+    <string name="release_notes">به‌روزرسانی هسته Leaf\nبه‌روزرسانی دارایی‌ها\nپیاده‌سازی نظارت اتصال\nبهبود سرویس QUIC tile</string>
     <string name="app_updates">به‌روزرسانی‌های برنامه</string>
     <string name="check_for_updates">بررسی به‌روزرسانی‌ها</string>
     <string name="check_for_updates_description">به‌ صورت دستی بررسی کنید که آیا نسخه جدیدتری از VPN برگ موجود است یا خیر.</string>
