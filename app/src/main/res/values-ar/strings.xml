@@ -146,4 +146,7 @@
     <string name="network_lost_message">يبدو أن شبكتك مفقودة وليس لديك إنترنت، لذا VPN لا يعمل. ومع ذلك، يحافظ مفتاح الإيقاف على اتصالك آمنًا وسيستمر بمجرد استعادة الوصول إلى الإنترنت.</string>
     <string name="connectivity_channel_name">اتصال الشبكة</string>
     <string name="connectivity_channel_description">إشعارات حول حالة اتصال الشبكة</string>
+    <string name="notification_title">خدمة VPN لايت</string>
+    <string name="notification_content">خدمة VPN لايت مدعومة بمنصة Surfshield.</string>
+    <string name="notification_stop_button">إيقاف VPN</string>
 </resources>

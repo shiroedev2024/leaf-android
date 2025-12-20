@@ -146,4 +146,7 @@
     <string name="network_lost_message">Ağınız kaybolmuş gibi görünüyor ve internetiniz yok, bu nedenle VPN çalışmıyor. Ancak, kill-switch bağlantınızı güvende tutuyor ve internet erişiminizi geri kazandığınızda devam edecek.</string>
     <string name="connectivity_channel_name">Ağ Bağlantısı</string>
     <string name="connectivity_channel_description">Ağ bağlantısı durumu hakkında bildirimler</string>
+    <string name="notification_title">Lite VPN Servisi</string>
+    <string name="notification_content">Surfshield platformu tarafından desteklenen bir Lite VPN servisi.</string>
+    <string name="notification_stop_button">VPN\'i Durdur</string>
 </resources>

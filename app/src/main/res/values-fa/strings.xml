@@ -146,4 +146,7 @@
     <string name="network_lost_message">به نظر می‌رسد شبکه شما قطع شده و اینترنت ندارید، بنابراین VPN کار نمی‌کند. با این حال، kill-switch اتصال شما را ایمن نگه می‌دارد و پس از بازگشت اینترنت ادامه خواهد یافت.</string>
     <string name="connectivity_channel_name">اتصال شبکه</string>
     <string name="connectivity_channel_description">اعلان‌ها درباره وضعیت اتصال شبکه</string>
+    <string name="notification_title">سرویس VPN لایت</string>
+    <string name="notification_content">یک سرویس VPN لایت که توسط پلتفرم Surfshield پشتیبانی می‌شود.</string>
+    <string name="notification_stop_button">توقف VPN</string>
 </resources>

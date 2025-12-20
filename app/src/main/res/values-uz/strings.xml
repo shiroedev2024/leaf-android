@@ -146,4 +146,7 @@
     <string name="network_lost_message">Tarmoqingiz yo\'qolganga o\'xshaydi va internetingiz yo\'q, shuning uchun VPN ishlamayapti. Biroq, kill-switch ulanishingizni xavfsiz saqlaydi va internet kirish huquqini qayta olgandan keyin davom etadi.</string>
     <string name="connectivity_channel_name">Tarmoq ulanishi</string>
     <string name="connectivity_channel_description">Tarmoq ulanish holati haqida bildirishnomalar</string>
+    <string name="notification_title">Lite VPN xizmati</string>
+    <string name="notification_content">Surfshield platformasi asosida ishlaydigan Lite VPN xizmati.</string>
+    <string name="notification_stop_button">VPNni to\'xtatish</string>
 </resources>

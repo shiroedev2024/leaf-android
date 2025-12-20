@@ -21,7 +21,12 @@
 package com.github.shiroedev2024.leaf.android
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import com.github.shiroedev2024.leaf.android.activity.MainActivity
+import com.github.shiroedev2024.leaf.android.library.ServiceManagement
+import com.github.shiroedev2024.leaf.android.library.delegate.ServiceListener
+import com.github.shiroedev2024.leaf.android.library.model.LeafConfig
 import com.zeugmasolutions.localehelper.LocaleAwareApplication
 
 class MainApplication : LocaleAwareApplication() {
@@ -56,6 +61,41 @@ class MainApplication : LocaleAwareApplication() {
 
         if (isMainProcess(appContext)) {
             Log.d("MainApplication", "Main process")
+
+            ServiceManagement.getInstance()
+                .addServiceListener(
+                    object : ServiceListener {
+                        override fun onConnect() {
+                            Log.d("MainApplication", "Service connected")
+
+                            val intent = Intent(getAppContext(), MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            val uri = intent.toUri(Intent.URI_INTENT_SCHEME)
+
+                            val leafConfig =
+                                LeafConfig.Builder()
+                                    .setConnectivityMonitoring(true, 10000)
+                                    .setSessionName(MainApplication.getString(R.string.app_name))
+                                    .setActivityIntentUri(uri)
+                                    .setNotificationDetails(
+                                        MainApplication.getString(R.string.notification_title),
+                                        MainApplication.getString(R.string.notification_content),
+                                        MainApplication.getString(R.string.notification_stop_button),
+                                    )
+                                    .build()
+
+                            ServiceManagement.getInstance().setConfig(leafConfig)
+                        }
+
+                        override fun onDisconnect() {
+                            Log.d("MainApplication", "Service disconnected")
+                        }
+
+                        override fun onError(throwable: Throwable?) {
+                            Log.e("MainApplication", "Failed to connect to service", throwable)
+                        }
+                    }
+                )
         } else {
             Log.d("MainApplication", "Not main process")
         }

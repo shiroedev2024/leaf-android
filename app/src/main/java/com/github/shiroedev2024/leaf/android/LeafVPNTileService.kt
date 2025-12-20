@@ -126,7 +126,7 @@ class LeafVPNTileService : TileService() {
             if (ServiceManagement.getInstance().isLeafRunning) {
                 ServiceManagement.getInstance().stopLeaf()
             } else {
-                ServiceManagement.getInstance().startLeaf("Leaf VPN")
+                ServiceManagement.getInstance().startLeaf()
             }
         } catch (e: RemoteException) {
             Log.e(TAG, "Failed to toggle VPN", e)

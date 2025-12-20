@@ -146,4 +146,7 @@
     <string name="network_lost_message">Parece que tu red se ha perdido y no tienes internet, por lo que la VPN no funciona. Sin embargo, el kill-switch mantiene tu conexión segura y continuará una vez que recuperes el acceso a internet.</string>
     <string name="connectivity_channel_name">Conectividad de Red</string>
     <string name="connectivity_channel_description">Notificaciones sobre el estado de la conectividad de red</string>
+    <string name="notification_title">Servicio VPN Lite</string>
+    <string name="notification_content">Un servicio VPN Lite impulsado por la plataforma Surfshield.</string>
+    <string name="notification_stop_button">Detener VPN</string>
 </resources>

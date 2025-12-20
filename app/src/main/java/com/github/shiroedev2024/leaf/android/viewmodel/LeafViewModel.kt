@@ -335,7 +335,7 @@ class LeafViewModel : ViewModel() {
 
     fun startLeaf() {
         _leafState.value = LeafState.Loading
-        ServiceManagement.getInstance().startLeaf("Lite VPN")
+        ServiceManagement.getInstance().startLeaf()
     }
 
     fun stopLeaf() {

@@ -146,4 +146,7 @@
     <string name="network_lost_message">Sepertinya jaringan Anda terputus dan Anda tidak memiliki internet, jadi VPN tidak bekerja. Namun, kill-switch menjaga koneksi Anda tetap aman dan akan berlanjut setelah Anda mendapatkan kembali akses internet.</string>
     <string name="connectivity_channel_name">Konektivitas Jaringan</string>
     <string name="connectivity_channel_description">Notifikasi tentang status konektivitas jaringan</string>
+    <string name="notification_title">Layanan VPN Lite</string>
+    <string name="notification_content">Layanan VPN Lite yang didukung oleh platform Surfshield.</string>
+    <string name="notification_stop_button">Hentikan VPN</string>
 </resources>

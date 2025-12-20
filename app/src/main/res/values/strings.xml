@@ -146,4 +146,7 @@
     <string name="network_lost_message">It seems your network is lost and you don\'t have internet, so the VPN is not working. However, the kill-switch keeps your connection secured and will continue once you regain internet access.</string>
     <string name="connectivity_channel_name">Network Connectivity</string>
     <string name="connectivity_channel_description">Notifications about network connectivity status</string>
+    <string name="notification_title">Lite VPN Service</string>
+    <string name="notification_content">A Lite VPN service powered by the Surfshield platform.</string>
+    <string name="notification_stop_button">Stop VPN</string>
 </resources>
