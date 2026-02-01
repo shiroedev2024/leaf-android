@@ -81,6 +81,7 @@
     <string name="auto_reload_description">Aktifkan penyebarulangan otomatis konfigurasi VPN setiap kali ada perubahan, memastikan bahwa pengaturan VPN selalu up-to-date.</string>
     <string name="subscription_details">Detail langganan</string>
     <string name="outbound_title">Keluaran</string>
+    <string name="refresh_pings">Perbarui ping</string>
     <string name="stop">Berhenti</string>
     <string name="start">Mulai</string>
     <string name="logs">Log</string>
@@ -131,7 +132,7 @@
     <string name="load_defaults_description">Setel ulang semua pengaturan ke nilai default.</string>
     <string name="load_defaults_confirm_title">Muat Pengaturan Default?</string>
     <string name="load_defaults_confirm_message">Ini akan mengatur ulang semua pengaturan ke nilai default. Apakah Anda yakin ingin melanjutkan?</string>
-    <string name="release_notes">Perbarui Leaf Core\nPerbarui aset\nMengimplementasikan pemantauan konektivitas\nTingkatkan layanan QUIC tile</string>
+    <string name="release_notes">Memperbarui Leaf Core untuk stabilitas dan performa yang lebih baik\nMeningkatkan aset aplikasi untuk pengalaman pengguna yang lebih baik\nMenambahkan dukungan untuk protokol VPN baru untuk kompatibilitas yang lebih luas\nMenonaktifkan notifikasi pemantauan berlebihan untuk mengurangi gangguan\nMengoptimalkan performa untuk operasi yang ramah baterai</string>
     <string name="app_updates">Pembaruan Aplikasi</string>
     <string name="check_for_updates">Periksa Pembaruan</string>
     <string name="check_for_updates_description">Periksa secara manual apakah ada versi Leaf VPN yang lebih baru tersedia.</string>
@@ -142,10 +143,6 @@
     <string name="update_check_success">Anda memiliki versi terbaru</string>
     <string name="update_check_manual_error">Gagal memeriksa pembaruan. Silakan coba lagi.</string>
     <string name="never_checked">Tidak pernah diperiksa</string>
-    <string name="network_lost_title">Koneksi Jaringan Terputus</string>
-    <string name="network_lost_message">Sepertinya jaringan Anda terputus dan Anda tidak memiliki internet, jadi VPN tidak bekerja. Namun, kill-switch menjaga koneksi Anda tetap aman dan akan berlanjut setelah Anda mendapatkan kembali akses internet.</string>
-    <string name="connectivity_channel_name">Konektivitas Jaringan</string>
-    <string name="connectivity_channel_description">Notifikasi tentang status konektivitas jaringan</string>
     <string name="notification_title">Layanan VPN Lite</string>
     <string name="notification_content">Layanan VPN Lite yang didukung oleh platform Surfshield.</string>
     <string name="notification_stop_button">Hentikan VPN</string>

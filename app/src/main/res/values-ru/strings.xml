@@ -81,6 +81,7 @@
     <string name="auto_reload_description">Включите автоматическую перезагрузку конфигурации VPN при обнаружении изменений, чтобы гарантировать, что настройки VPN всегда актуальны.</string>
     <string name="subscription_details">Детали подписки</string>
     <string name="outbound_title">Исходящие</string>
+    <string name="refresh_pings">Обновить пинги</string>
     <string name="stop">Остановить</string>
     <string name="start">Начать</string>
     <string name="logs">Логи</string>
@@ -131,7 +132,7 @@
     <string name="load_defaults_description">Сбросить все настройки к значениям по умолчанию.</string>
     <string name="load_defaults_confirm_title">Загрузить Настройки По Умолчанию?</string>
     <string name="load_defaults_confirm_message">Это сбросит все настройки к значениям по умолчанию. Вы уверены, что хотите продолжить?</string>
-    <string name="release_notes">Обновить ядро Leaf\nОбновить ассеты\nРеализовать мониторинг подключения\nУлучшить сервис QUIC tile</string>
+    <string name="release_notes">Обновлено ядро Leaf для улучшения стабильности и производительности\nУлучшены ресурсы приложения для лучшего пользовательского опыта\nДобавлена поддержка новых VPN-протоколов для расширенной совместимости\nОтключены избыточные уведомления мониторинга для уменьшения помех\nОптимизирована производительность для экономичного использования батареи</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="check_for_updates">Проверить обновления</string>
     <string name="check_for_updates_description">Вручную проверьте, доступна ли более новая версия Leaf VPN.</string>
@@ -142,10 +143,6 @@
     <string name="update_check_success">У вас последняя версия</string>
     <string name="update_check_manual_error">Не удалось проверить обновления. Попробуйте еще раз.</string>
     <string name="never_checked">Никогда не проверялось</string>
-    <string name="network_lost_title">Подключение к сети потеряно</string>
-    <string name="network_lost_message">Похоже, ваша сеть потеряна и у вас нет интернета, поэтому VPN не работает. Однако kill-switch сохраняет ваше соединение защищенным и продолжит работу, как только вы восстановите доступ к интернету.</string>
-    <string name="connectivity_channel_name">Сетевое подключение</string>
-    <string name="connectivity_channel_description">Уведомления о состоянии сетевого подключения</string>
     <string name="notification_title">Сервис Lite VPN</string>
     <string name="notification_content">Сервис Lite VPN на базе платформы Surfshield.</string>
     <string name="notification_stop_button">Остановить VPN</string>

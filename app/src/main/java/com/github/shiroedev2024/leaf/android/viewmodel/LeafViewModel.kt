@@ -30,7 +30,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.shiroedev2024.leaf.android.library.ApiClient
 import com.github.shiroedev2024.leaf.android.library.LeafException
 import com.github.shiroedev2024.leaf.android.library.ServiceManagement
-import com.github.shiroedev2024.leaf.android.library.delegate.ConnectivityChangeListener
 import com.github.shiroedev2024.leaf.android.library.delegate.LeafListener
 import com.github.shiroedev2024.leaf.android.library.delegate.ServiceListener
 import com.github.shiroedev2024.leaf.android.library.delegate.SubscriptionCallback
@@ -69,20 +68,24 @@ class LeafViewModel : ViewModel() {
         MutableLiveData(MemoryLoggerState.Initial)
     val memoryLoggerState: LiveData<MemoryLoggerState> = _memoryLoggerState
 
-    private var _connectivityState: MutableLiveData<ConnectivityState> =
-        MutableLiveData(ConnectivityState.Connected)
-    val connectivityState: LiveData<ConnectivityState> = _connectivityState
-
     private var _outbounds: MutableStateFlow<SnapshotStateList<OutboundInfo>> =
         MutableStateFlow(mutableStateListOf())
     val outbounds: StateFlow<SnapshotStateList<OutboundInfo>> = _outbounds
+
+    private var _pingValues: MutableStateFlow<Map<String, Double?>> = MutableStateFlow(emptyMap())
+    val pingValues: StateFlow<Map<String, Double?>> = _pingValues
 
     private var _memoryLogs: MutableStateFlow<SnapshotStateList<String>> =
         MutableStateFlow(mutableStateListOf())
     val memoryLogs: StateFlow<SnapshotStateList<String>> = _memoryLogs
 
     private var loggingJob: Job? = null
+    private var pingJob: Job? = null
+    private var autoPingJob: Job? = null
     private var leafApi: ApiClient? = null
+
+    private var _isRefreshingPings: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isRefreshingPings: LiveData<Boolean> = _isRefreshingPings
 
     private val leafListener =
         object : LeafListener {
@@ -96,6 +99,17 @@ class LeafViewModel : ViewModel() {
                 viewModelScope.launch {
                     _outboundState.value = OutboundState.Loading
                     getOutboundList()
+
+                    val initialPings = _outbounds.value.associate { it.name to Double.NaN }
+                    _pingValues.value = initialPings
+
+                    autoPingJob?.cancel()
+                    autoPingJob = launch {
+                        delay(3000)
+                        if (_outbounds.value.isNotEmpty()) {
+                            refreshPings()
+                        }
+                    }
                 }
             }
 
@@ -129,6 +143,9 @@ class LeafViewModel : ViewModel() {
             override fun onStopSuccess() {
                 _leafState.value = LeafState.Stopped
                 _outboundState.value = OutboundState.Initial
+
+                pingJob?.cancel()
+                autoPingJob?.cancel()
             }
 
             override fun onStopFailed(message: String?) {
@@ -159,9 +176,14 @@ class LeafViewModel : ViewModel() {
                 _outboundState.value = OutboundState.Initial
                 _preferencesState.value = PreferencesState.Initial
                 _outbounds.value.clear()
+                _pingValues.value = emptyMap()
 
                 stopLogger()
                 leafApi = null
+
+                // Cancel ping jobs
+                pingJob?.cancel()
+                autoPingJob?.cancel()
             }
 
             override fun onError(throwable: Throwable?) {
@@ -185,23 +207,9 @@ class LeafViewModel : ViewModel() {
             }
         }
 
-    private val connectivityCallback =
-        object : ConnectivityChangeListener {
-            override fun onConnectivityRecovered() {
-                Log.d("LeafAndroid", "Connectivity recovered")
-                _connectivityState.value = ConnectivityState.Connected
-            }
-
-            override fun onConnectivityLost() {
-                Log.d("LeafAndroid", "Connectivity lost")
-                _connectivityState.value = ConnectivityState.Lost
-            }
-        }
-
     fun initListeners() {
         ServiceManagement.getInstance().addLeafListener(leafListener)
         ServiceManagement.getInstance().addServiceListener(serviceListener)
-        ServiceManagement.getInstance().addConnectivityChangeListener(connectivityCallback)
     }
 
     override fun onCleared() {
@@ -209,9 +217,12 @@ class LeafViewModel : ViewModel() {
 
         ServiceManagement.getInstance().removeServiceListener(serviceListener)
         ServiceManagement.getInstance().removeLeafListener(leafListener)
-        ServiceManagement.getInstance().removeConnectivityChangeListener(connectivityCallback)
 
         stopLogger()
+
+        pingJob?.cancel()
+        autoPingJob?.cancel()
+
         Log.d("LeafAndroid", "onCleared")
     }
 
@@ -365,6 +376,75 @@ class LeafViewModel : ViewModel() {
         }
     }
 
+    fun refreshPings() {
+        pingJob?.cancel()
+        pingJob =
+            viewModelScope.launch {
+                _isRefreshingPings.value = true
+
+                try {
+                    val currentPings = _outbounds.value.associate { it.name to Double.NaN }
+                    _pingValues.value = currentPings
+
+                    // Ping each outbound
+                    val newPings = mutableMapOf<String, Double?>()
+                    _outbounds.value.forEach { outbound ->
+                        try {
+                            val health =
+                                withContext(Dispatchers.IO) {
+                                    leafApi?.getOutboundHealth(outbound.name)
+                                }
+
+                            // Use TCP first, fallback to UDP
+                            val pingValue =
+                                when {
+                                    health?.tcpMs != null -> health.tcpMs
+                                    health?.udpMs != null -> health.udpMs
+                                    else -> null
+                                }
+
+                            newPings[outbound.name] = pingValue
+                        } catch (e: Exception) {
+                            Log.e("LeafAndroid", "Failed to ping ${outbound.name}", e)
+                            newPings[outbound.name] = null
+                        }
+                    }
+
+                    _pingValues.value = newPings
+                } catch (e: Exception) {
+                    Log.e("LeafAndroid", "Error in refreshPings", e)
+                } finally {
+                    _isRefreshingPings.value = false
+                }
+            }
+    }
+
+    fun pingOutbound(outboundName: String) {
+        viewModelScope.launch {
+            try {
+                val health =
+                    withContext(Dispatchers.IO) { leafApi?.getOutboundHealth(outboundName) }
+
+                val pingValue =
+                    when {
+                        health?.tcpMs != null -> health.tcpMs
+                        health?.udpMs != null -> health.udpMs
+                        else -> null
+                    }
+
+                val currentPings = _pingValues.value.toMutableMap()
+                currentPings[outboundName] = pingValue
+                _pingValues.value = currentPings
+            } catch (e: Exception) {
+                Log.e("LeafAndroid", "Failed to ping $outboundName", e)
+
+                val currentPings = _pingValues.value.toMutableMap()
+                currentPings[outboundName] = null
+                _pingValues.value = currentPings
+            }
+        }
+    }
+
     // MemoryLoggerState
     sealed class MemoryLoggerState {
         data object Initial : MemoryLoggerState()
@@ -429,12 +509,5 @@ class LeafViewModel : ViewModel() {
         data object Reloaded : LeafState()
 
         data class Error(val error: String) : LeafState()
-    }
-
-    // ConnectivityState
-    sealed class ConnectivityState {
-        data object Connected : ConnectivityState()
-
-        data object Lost : ConnectivityState()
     }
 }

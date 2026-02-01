@@ -34,9 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.shiroedev2024.leaf.android.R
+import com.github.shiroedev2024.leaf.android.getPingColor
+import com.github.shiroedev2024.leaf.android.getPingText
 import com.github.shiroedev2024.leaf.android.library.model.OutboundInfo
 import com.github.shiroedev2024.leaf.android.parseAsCountryInfo
 import com.github.shiroedev2024.leaf.android.viewmodel.LeafViewModel
@@ -45,23 +48,44 @@ import com.github.shiroedev2024.leaf.android.viewmodel.LeafViewModel
 fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) {
     val outboundState by leafViewModel.outboundState.observeAsState()
     val outbounds by leafViewModel.outbounds.collectAsState()
+    val pingValues by leafViewModel.pingValues.collectAsState()
+    val isRefreshingPings by leafViewModel.isRefreshingPings.observeAsState()
     val lazyListState = rememberLazyListState()
 
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
         when (outboundState) {
             is LeafViewModel.OutboundState.Success -> {
+                // Header with ping button
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = stringResource(R.string.outbound_title),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
 
-                Text(
-                    text = stringResource(R.string.outbound_title),
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 8.dp),
-                )
+                    IconButton(
+                        onClick = { leafViewModel.refreshPings() },
+                        enabled = isRefreshingPings == false,
+                    ) {
+                        Icon(
+                            imageVector =
+                                ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
+                            contentDescription = stringResource(R.string.refresh_pings),
+                        )
+                    }
+                }
+
                 Divider(modifier = Modifier.padding(bottom = 8.dp))
+
                 LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f), state = lazyListState) {
-                    items(outbounds, key = { it.name }) { outboundInfo ->
+                    items(outbounds, key = { it.name }) { outbound ->
                         OutboundCard(
-                            outboundInfo = outboundInfo,
-                            onSelect = { leafViewModel.changeSelectedOutbound(outboundInfo.name) },
+                            outboundInfo = outbound,
+                            pingMs = pingValues[outbound.name],
+                            onSelect = { leafViewModel.changeSelectedOutbound(outbound.name) },
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                     }
@@ -96,7 +120,12 @@ fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier)
 }
 
 @Composable
-fun OutboundCard(outboundInfo: OutboundInfo, onSelect: () -> Unit, modifier: Modifier = Modifier) {
+fun OutboundCard(
+    outboundInfo: OutboundInfo,
+    pingMs: Double?,
+    onSelect: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier.fillMaxWidth().clickable(onClick = onSelect).padding(vertical = 8.dp),
         shape = RoundedCornerShape(12.dp),
@@ -108,13 +137,18 @@ fun OutboundCard(outboundInfo: OutboundInfo, onSelect: () -> Unit, modifier: Mod
             ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(horizontal = 16.dp),
-            contentAlignment = Alignment.CenterStart,
+        Row(
+            modifier =
+                Modifier.fillMaxWidth()
+                    .defaultMinSize(minHeight = 56.dp)
+                    .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
+            // Country info
             Text(
                 text = outboundInfo.name.parseAsCountryInfo(),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Start,
                 style =
                     if (outboundInfo.isSelected) {
@@ -127,6 +161,30 @@ fun OutboundCard(outboundInfo: OutboundInfo, onSelect: () -> Unit, modifier: Mod
                         )
                     },
             )
+
+            // Ping indicator
+            PingIndicator(pingMs = pingMs, isSelected = outboundInfo.isSelected)
         }
     }
+}
+
+@Composable
+fun PingIndicator(pingMs: Double?, isSelected: Boolean) {
+    val textColor =
+        if (isSelected) {
+            when {
+                pingMs == null -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
+                pingMs.isNaN() -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
+                else -> MaterialTheme.colorScheme.onPrimary
+            }
+        } else {
+            pingMs.getPingColor()
+        }
+
+    Text(
+        text = pingMs.getPingText(),
+        color = textColor,
+        style = MaterialTheme.typography.bodySmall,
+        fontWeight = FontWeight.Medium,
+    )
 }

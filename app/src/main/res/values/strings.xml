@@ -86,6 +86,10 @@
     <string name="auto_reload_description">Enable automatic reloading of the VPN configuration whenever changes are detected, ensuring the VPN settings are always up-to-date.</string>
     <string name="subscription_details">Subscription details</string>
     <string name="outbound_title">Outbounds</string>
+    <string name="refresh_pings">Refresh pings</string>
+    <string name="ping_loading" translatable="false">LOADING</string>
+    <string name="ping_timeout" translatable="false">TIMEOUT</string>
+    <string name="ping_ms_format" translatable="false">%dms</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="logs">Logs</string>
@@ -131,7 +135,7 @@
     <string name="load_defaults_description">Reset all settings to their default values.</string>
     <string name="load_defaults_confirm_title">Load Default Settings?</string>
     <string name="load_defaults_confirm_message">This will reset all settings to their default values. Are you sure you want to continue?</string>
-    <string name="release_notes">Update leaf Core\nUpdate assets\nImplement connectivity monitoring\nEnhance quic tile service</string>
+    <string name="release_notes">Updated Leaf Core for improved stability and performance\nEnhanced application assets for better user experience\nAdded support for new VPN protocols for expanded compatibility\nDisabled excessive monitoring notifications to reduce interruptions\nOptimized performance for battery-friendly operation</string>
     <string name="app_updates">App Updates</string>
     <string name="check_for_updates">Check for Updates</string>
     <string name="check_for_updates_description">Manually check if a newer version of Leaf VPN is available.</string>
@@ -142,10 +146,6 @@
     <string name="update_check_success">You have the latest version</string>
     <string name="update_check_manual_error">Failed to check for updates. Please try again.</string>
     <string name="never_checked">Never checked</string>
-    <string name="network_lost_title">Network Connection Lost</string>
-    <string name="network_lost_message">It seems your network is lost and you don\'t have internet, so the VPN is not working. However, the kill-switch keeps your connection secured and will continue once you regain internet access.</string>
-    <string name="connectivity_channel_name">Network Connectivity</string>
-    <string name="connectivity_channel_description">Notifications about network connectivity status</string>
     <string name="notification_title">Lite VPN Service</string>
     <string name="notification_content">A Lite VPN service powered by the Surfshield platform.</string>
     <string name="notification_stop_button">Stop VPN</string>

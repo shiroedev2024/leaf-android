@@ -87,6 +87,7 @@
     <string name="auto_reload_description">در صورت شناسایی تغییرات، بارگذاری خودکار تنظیمات VPN را فعال کنید تا مطمئن شوید تنظیمات VPN همیشه به روز باشند.</string>
     <string name="subscription_details">جزئیات اشتراک</string>
     <string name="outbound_title">خروجی‌ها</string>
+    <string name="refresh_pings">به‌روزرسانی پینگ‌ها</string>
     <string name="stop">توقف</string>
     <string name="start">شروع</string>
     <string name="logs">لاگ‌ها</string>
@@ -131,7 +132,7 @@
     <string name="load_defaults_description">بازنشانی همه تنظیمات به مقادیر پیش‌فرض.</string>
     <string name="load_defaults_confirm_title">بارگذاری تنظیمات پیش‌فرض؟</string>
     <string name="load_defaults_confirm_message">این کار همه تنظیمات را به مقادیر پیش‌فرض بازنشانی می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
-    <string name="release_notes">به‌روزرسانی هسته Leaf\nبه‌روزرسانی دارایی‌ها\nپیاده‌سازی نظارت اتصال\nبهبود سرویس QUIC tile</string>
+    <string name="release_notes">به‌روزرسانی هسته Leaf برای پایداری و عملکرد بهتر\nبهبود دارایی‌های برنامه برای تجربه کاربری بهتر\nافزودن پشتیبانی از پروتکل‌های جدید VPN برای سازگاری گسترده‌تر\nغیرفعال کردن اعلان‌های نظارت بیش از حد برای کاهش مزاحمت‌ها\nبهینه‌سازی عملکرد برای استفاده دوستانه از باتری</string>
     <string name="app_updates">به‌روزرسانی‌های برنامه</string>
     <string name="check_for_updates">بررسی به‌روزرسانی‌ها</string>
     <string name="check_for_updates_description">به‌ صورت دستی بررسی کنید که آیا نسخه جدیدتری از VPN برگ موجود است یا خیر.</string>
@@ -142,10 +143,6 @@
     <string name="update_check_success">شما آخرین نسخه را دارید</string>
     <string name="update_check_manual_error">بررسی به‌روزرسانی‌ها ناموفق بود. لطفاً دوباره تلاش کنید.</string>
     <string name="never_checked">هرگز بررسی نشده</string>
-    <string name="network_lost_title">اتصال شبکه قطع شد</string>
-    <string name="network_lost_message">به نظر می‌رسد شبکه شما قطع شده و اینترنت ندارید، بنابراین VPN کار نمی‌کند. با این حال، kill-switch اتصال شما را ایمن نگه می‌دارد و پس از بازگشت اینترنت ادامه خواهد یافت.</string>
-    <string name="connectivity_channel_name">اتصال شبکه</string>
-    <string name="connectivity_channel_description">اعلان‌ها درباره وضعیت اتصال شبکه</string>
     <string name="notification_title">سرویس VPN لایت</string>
     <string name="notification_content">یک سرویس VPN لایت که توسط پلتفرم Surfshield پشتیبانی می‌شود.</string>
     <string name="notification_stop_button">توقف VPN</string>

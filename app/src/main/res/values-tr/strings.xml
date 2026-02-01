@@ -87,6 +87,7 @@
     <string name="auto_reload_description">Değişiklikler algılandığında VPN yapılandırmasını otomatik olarak yeniden yükleyin, böylece VPN ayarlarının her zaman güncel olduğundan emin olun.</string>
     <string name="subscription_details">Abonelik ayrıntıları</string>
     <string name="outbound_title">Çıkışlar</string>
+    <string name="refresh_pings">Pingleri yenile</string>
     <string name="stop">Durdur</string>
     <string name="start">Başlat</string>
     <string name="logs">Günlükler</string>
@@ -131,7 +132,7 @@
     <string name="load_defaults_description">Tüm ayarları varsayılan değerlerine sıfırlayın.</string>
     <string name="load_defaults_confirm_title">Varsayılan Ayarları Yükle?</string>
     <string name="load_defaults_confirm_message">Bu, tüm ayarları varsayılan değerlerine sıfırlayacaktır. Devam etmek istediğinizden emin misiniz?</string>
-    <string name="release_notes">Leaf Core\'u Güncelle\nVarlıkları güncelle\nBağlantı izlemesini uygula\nQUIC tile servisini geliştir</string>
+    <string name="release_notes">Daha iyi kararlılık ve performans için Leaf Core güncellendi\nDaha iyi kullanıcı deneyimi için uygulama varlıkları iyileştirildi\nGenişletilmiş uyumluluk için yeni VPN protokolleri desteği eklendi\nRahatsız edici bildirimleri azaltmak için aşırı izleme bildirimleri devre dışı bırakıldı\nPil dostu çalışma için performans optimize edildi</string>
     <string name="app_updates">Uygulama Güncellemeleri</string>
     <string name="check_for_updates">Güncelleştirmeleri Kontrol Et</string>
     <string name="check_for_updates_description">Leaf VPN için daha yeni bir sürüm olup olmadığını manuel olarak kontrol edin.</string>
@@ -142,10 +143,6 @@
     <string name="update_check_success">En son sürüme sahipsiniz</string>
     <string name="update_check_manual_error">Güncellemeler kontrol edilemedi. Lütfen tekrar deneyin.</string>
     <string name="never_checked">Hiç kontrol edilmedi</string>
-    <string name="network_lost_title">Ağ Bağlantısı Kesildi</string>
-    <string name="network_lost_message">Ağınız kaybolmuş gibi görünüyor ve internetiniz yok, bu nedenle VPN çalışmıyor. Ancak, kill-switch bağlantınızı güvende tutuyor ve internet erişiminizi geri kazandığınızda devam edecek.</string>
-    <string name="connectivity_channel_name">Ağ Bağlantısı</string>
-    <string name="connectivity_channel_description">Ağ bağlantısı durumu hakkında bildirimler</string>
     <string name="notification_title">Lite VPN Servisi</string>
     <string name="notification_content">Surfshield platformu tarafından desteklenen bir Lite VPN servisi.</string>
     <string name="notification_stop_button">VPN\'i Durdur</string>

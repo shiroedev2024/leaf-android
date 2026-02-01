@@ -74,7 +74,6 @@ class MainApplication : LocaleAwareApplication() {
 
                             val leafConfig =
                                 LeafConfig.Builder()
-                                    .setConnectivityMonitoring(true, 10000)
                                     .setSessionName(MainApplication.getString(R.string.app_name))
                                     .setActivityIntentUri(uri)
                                     .setNotificationDetails(

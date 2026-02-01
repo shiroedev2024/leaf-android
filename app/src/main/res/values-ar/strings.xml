@@ -81,6 +81,7 @@
     <string name="auto_reload_description">قم بتمكين إعادة تحميل تكوين VPN تلقائياً عند اكتشاف التغييرات، مما يضمن أن إعدادات VPN محدثة دائماً.</string>
     <string name="subscription_details">تفاصيل الاشتراك</string>
     <string name="outbound_title">الخرجي</string>
+    <string name="refresh_pings">تحديث عمليات البينج</string>
     <string name="stop">إيقاف</string>
     <string name="start">بدء</string>
     <string name="logs">السجلات</string>
@@ -131,7 +132,7 @@
     <string name="load_defaults_description">إعادة تعيين جميع الإعدادات إلى قيمها الافتراضية.</string>
     <string name="load_defaults_confirm_title">تحميل الإعدادات الافتراضية؟</string>
     <string name="load_defaults_confirm_message">سيؤدي هذا إلى إعادة تعيين جميع الإعدادات إلى قيمها الافتراضية. هل أنت متأكد من أنك تريد المتابعة؟</string>
-    <string name="release_notes">تحديث نواة Leaf\nتحديث الأصول\nتنفيذ مراقبة الاتصال\nتحسين خدمة QUIC tile</string>
+    <string name="release_notes">تحديث نواة Leaf لتحسين الاستقرار والأداء\nتحسين أصول التطبيق لتجربة مستخدم أفضل\nإضافة دعم لبروتوكولات VPN جديدة لتوسيع التوافق\nتعطيل إشعارات المراقبة المفرطة لتقليل المقاطعات\nتحسين الأداء لتشغيل صديق للبطارية</string>
     <string name="app_updates">تحديثات التطبيق</string>
     <string name="check_for_updates">تحقق من التحديثات</string>
     <string name="check_for_updates_description">تحقق يدوياً مما إذا كان الإصدار الأحدث من Leaf VPN متاحًا.</string>
@@ -142,10 +143,6 @@
     <string name="update_check_success">لديك أحدث إصدار</string>
     <string name="update_check_manual_error">فشل في التحقق من التحديثات. يرجى المحاولة مرة أخرى.</string>
     <string name="never_checked">لم يتم التحقق مطلقًا</string>
-    <string name="network_lost_title">فقدت الاتصال بالشبكة</string>
-    <string name="network_lost_message">يبدو أن شبكتك مفقودة وليس لديك إنترنت، لذا VPN لا يعمل. ومع ذلك، يحافظ مفتاح الإيقاف على اتصالك آمنًا وسيستمر بمجرد استعادة الوصول إلى الإنترنت.</string>
-    <string name="connectivity_channel_name">اتصال الشبكة</string>
-    <string name="connectivity_channel_description">إشعارات حول حالة اتصال الشبكة</string>
     <string name="notification_title">خدمة VPN لايت</string>
     <string name="notification_content">خدمة VPN لايت مدعومة بمنصة Surfshield.</string>
     <string name="notification_stop_button">إيقاف VPN</string>

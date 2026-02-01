@@ -99,3 +99,22 @@ fun String.getLogColor(): Color {
         else -> Color(0xFFD1D5DB) // text-gray-300
     }
 }
+
+fun Double?.getPingColor(): Color {
+    return when {
+        this == null -> Color(0xFF9CA3AF) // text-gray-400 (timeout)
+        this.isNaN() -> Color(0xFF9CA3AF) // text-gray-400 (loading)
+        this < 100 -> Color(0xFF4CAF50) // text-green-500
+        this < 300 -> Color(0xFFFF9800) // text-orange-500
+        this < 800 -> Color(0xFFFF5722) // text-deep-orange-500
+        else -> Color(0xFFF44336) // text-red-500
+    }
+}
+
+fun Double?.getPingText(): String {
+    return when {
+        this == null -> "TIMEOUT"
+        this.isNaN() -> "LOADING"
+        else -> "${this.toInt()}ms"
+    }
+}
