@@ -113,6 +113,8 @@
     <string name="fake_ip_description">Включите фальшивые IP-адреса для улучшения производительности разрешения DNS и конфиденциальности.</string>
     <string name="force_resolve_domain">Принудительное разрешение домена</string>
     <string name="force_resolve_domain_description">Принудительно разрешать имена доменов для всех соединений, обеспечивая последовательное поведение DNS.</string>
+    <string name="internal_dns_server">Внутренний DNS-сервер</string>
+    <string name="internal_dns_server_description">Включите лучший внутренний DNS-сервер для улучшения производительности и надежности разрешения DNS.</string>
     <string name="bypass_geoip_list">Список обхода GeoIP</string>
     <string name="bypass_geoip_list_description">Укажите коды GeoIP для обхода маршрутизации VPN для этих регионов.</string>
     <string name="bypass_geosite_list">Список обхода Geosite</string>

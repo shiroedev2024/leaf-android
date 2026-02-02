@@ -113,6 +113,8 @@
     <string name="fake_ip_description">DNS çözümleme performansını ve gizliliği artırmak için sahte IP adreslerini etkinleştirin.</string>
     <string name="force_resolve_domain">Alan Adı Çözümünü Zorla</string>
     <string name="force_resolve_domain_description">Tüm bağlantılar için alan adı çözümünü zorunlu kılın, tutarlı DNS davranışı sağlayın.</string>
+    <string name="internal_dns_server">İç DNS Sunucusu</string>
+    <string name="internal_dns_server_description">DNS çözümleme performansı ve güvenilirliğini iyileştirmek için daha iyi iç DNS sunucusunu etkinleştirin.</string>
     <string name="bypass_geoip_list">GeoIP Atlama Listesi</string>
     <string name="bypass_geoip_list_description">Bu bölgeler için VPN yönlendirmesini atlamak üzere GeoIP kodlarını belirtin.</string>
     <string name="bypass_geosite_list">Geosite Atlama Listesi</string>

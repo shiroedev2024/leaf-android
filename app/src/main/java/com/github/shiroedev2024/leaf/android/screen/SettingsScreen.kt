@@ -271,6 +271,19 @@ fun LeafSettingsContent(
                     onPreferencesChanged(prefs)
                 },
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            SwitchPreference(
+                title = stringResource(R.string.internal_dns_server),
+                description = stringResource(R.string.internal_dns_server_description),
+                icon = ImageVector.vectorResource(id = R.drawable.baseline_router_24),
+                value = prefs.internalDnsServer,
+                onValueChanged = {
+                    prefs = prefs.copy(internalDnsServer = it)
+                    onPreferencesChanged(prefs)
+                },
+            )
         }
 
         Spacer(modifier = Modifier.height(8.dp))

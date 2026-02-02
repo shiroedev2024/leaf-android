@@ -113,6 +113,8 @@
     <string name="fake_ip_description">تمكين عناوين IP مزيفة لتحسين أداء دقة DNS والخصوصية.</string>
     <string name="force_resolve_domain">فرض دقة النطاق</string>
     <string name="force_resolve_domain_description">فرض دقة اسم النطاق لجميع الاتصالات، مما يضمن سلوك DNS متسق.</string>
+    <string name="internal_dns_server">خادم DNS الداخلي</string>
+    <string name="internal_dns_server_description">تمكين خادم DNS داخلي أفضل لتحسين أداء دقة DNS والموثوقية.</string>
     <string name="bypass_geoip_list">قائمة تجاوز GeoIP</string>
     <string name="bypass_geoip_list_description">حدد رموز GeoIP لتجاوز توجيه VPN لهذه المناطق.</string>
     <string name="bypass_geosite_list">قائمة تجاوز Geosite</string>

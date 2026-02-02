@@ -113,6 +113,8 @@
     <string name="fake_ip_description">Habilita direcciones IP falsas para mejorar el rendimiento de resolución DNS y la privacidad.</string>
     <string name="force_resolve_domain">Forzar resolución de dominio</string>
     <string name="force_resolve_domain_description">Fuerza la resolución de nombres de dominio para todas las conexiones, asegurando un comportamiento DNS consistente.</string>
+    <string name="internal_dns_server">Servidor DNS Interno</string>
+    <string name="internal_dns_server_description">Habilitar mejor servidor DNS interno para mejorar el rendimiento y la confiabilidad de la resolución DNS.</string>
     <string name="bypass_geoip_list">Lista de bypass GeoIP</string>
     <string name="bypass_geoip_list_description">Especifica códigos GeoIP para omitir el enrutamiento VPN para estas regiones.</string>
     <string name="bypass_geosite_list">Lista de bypass Geosite</string>

@@ -116,6 +116,8 @@
     <string name="fake_ip_description">Enable fake IP addresses to improve DNS resolution performance and privacy.</string>
     <string name="force_resolve_domain">Force Resolve Domain</string>
     <string name="force_resolve_domain_description">Force domain name resolution for all connections, ensuring consistent DNS behavior.</string>
+    <string name="internal_dns_server">Internal DNS Server</string>
+    <string name="internal_dns_server_description">Enable better internal DNS server for improved DNS resolution performance and reliability.</string>
     <string name="bypass_geoip_list">Bypass GeoIP List</string>
     <string name="bypass_geoip_list_description">Specify GeoIP codes to bypass VPN routing for these regions.</string>
     <string name="bypass_geosite_list">Bypass Geosite List</string>

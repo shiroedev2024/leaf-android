@@ -113,6 +113,8 @@
     <string name="fake_ip_description">DNS hal qilish unumdorligi va maxfiyligini yaxshilash uchun soxta IP manzillarini yoqish.</string>
     <string name="force_resolve_domain">Domen hal qilishni majburiy qilish</string>
     <string name="force_resolve_domain_description">Barcha ulanishlar uchun domen nomini hal qilishni majburiy qilish, izchil DNS xatti-harakatini ta\'minlash.</string>
+    <string name="internal_dns_server">Ichki DNS serveri</string>
+    <string name="internal_dns_server_description">DNS hal qilish unumdorligi va ishonchliligini yaxshilash uchun yaxshiroq ichki DNS serverini yoqish.</string>
     <string name="bypass_geoip_list">GeoIP chetlash ro\'yxati</string>
     <string name="bypass_geoip_list_description">Bu hududlar uchun VPN marshrutizatsiyasini chetlash uchun GeoIP kodlarini belgilang.</string>
     <string name="bypass_geosite_list">Geosite chetlash ro\'yxati</string>

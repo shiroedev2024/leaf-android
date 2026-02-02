@@ -113,6 +113,8 @@
     <string name="fake_ip_description">آدرس‌های IP جعلی را برای بهبود عملکرد وضوح DNS و حفظ حریم خصوصی فعال کنید.</string>
     <string name="force_resolve_domain">وادار کردن وضوح دامنه</string>
     <string name="force_resolve_domain_description">وضوح نام دامنه را برای همه اتصالات اجباری کنید، که رفتار DNS سازگار را تضمین می‌کند.</string>
+    <string name="internal_dns_server">سرور DNS داخلی</string>
+    <string name="internal_dns_server_description">سرور DNS داخلی بهتر را برای بهبود عملکرد و قابلیت اطمینان وضوح DNS فعال کنید.</string>
     <string name="bypass_geoip_list">لیست عبور GeoIP</string>
     <string name="bypass_geoip_list_description">کدهای GeoIP را برای عبور از مسیریابی VPN برای این مناطق مشخص کنید.</string>
     <string name="bypass_geosite_list">لیست عبور Geosite</string>

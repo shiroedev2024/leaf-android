@@ -37,6 +37,7 @@ data class AppPreferences(
     val bypassLanInCore: Boolean = true,
     val fakeIp: Boolean = false,
     val forceResolveDomain: Boolean = false,
+    val internalDnsServer: Boolean = false,
     val bypassGeoipList: List<String> = emptyList(),
     val bypassGeositeList: List<String> = emptyList(),
     val rejectGeoipList: List<String> = emptyList(),
@@ -56,6 +57,7 @@ fun LeafPreferences.toAppPreferences(): AppPreferences {
         bypassLanInCore = this.isBypassLanInCore,
         fakeIp = this.isFakeIp,
         forceResolveDomain = this.isForceResolveDomain,
+        internalDnsServer = this.isInternalDnsServer,
         bypassGeoipList = this.bypassGeoipList ?: emptyList(),
         bypassGeositeList = this.bypassGeositeList ?: emptyList(),
         rejectGeoipList = this.rejectGeoipList ?: emptyList(),
@@ -80,6 +82,7 @@ fun AppPreferences.toUpdateLeafPreferences(): UpdateLeafPreferences {
         this.bypassGeositeList,
         this.rejectGeoipList,
         this.rejectGeositeList,
+        this.internalDnsServer,
     )
 }
 
@@ -96,6 +99,7 @@ fun UpdateLeafPreferences.toAppPreferences(): AppPreferences {
         bypassLanInCore = this.isBypassLanInCore,
         fakeIp = this.isFakeIp,
         forceResolveDomain = this.isForceResolveDomain,
+        internalDnsServer = this.isInternalDnsServer,
         bypassGeoipList = this.bypassGeoipList ?: emptyList(),
         bypassGeositeList = this.bypassGeositeList ?: emptyList(),
         rejectGeoipList = this.rejectGeoipList ?: emptyList(),
