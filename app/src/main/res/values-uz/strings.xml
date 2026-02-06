@@ -148,4 +148,7 @@
     <string name="notification_title">Lite VPN xizmati</string>
     <string name="notification_content">Surfshield platformasi asosida ishlaydigan Lite VPN xizmati.</string>
     <string name="notification_stop_button">VPNni to\'xtatish</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Global Avto</string>
+    <string name="outbound_auto_suffix"> (Avto)</string>
+    <string name="ping_individual">Node ga ping</string>
 </resources>

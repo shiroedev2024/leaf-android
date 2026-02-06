@@ -113,8 +113,8 @@ fun Double?.getPingColor(): Color {
 
 fun Double?.getPingText(): String {
     return when {
-        this == null -> "TIMEOUT"
-        this.isNaN() -> "LOADING"
-        else -> "${this.toInt()}ms"
+        this == null -> MainApplication.getString(R.string.ping_timeout)
+        this.isNaN() -> MainApplication.getString(R.string.ping_loading)
+        else -> MainApplication.getString(R.string.ping_ms_format, this.toInt())
     }
 }

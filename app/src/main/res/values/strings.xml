@@ -87,9 +87,12 @@
     <string name="subscription_details">Subscription details</string>
     <string name="outbound_title">Outbounds</string>
     <string name="refresh_pings">Refresh pings</string>
-    <string name="ping_loading" translatable="false">LOADING</string>
-    <string name="ping_timeout" translatable="false">TIMEOUT</string>
+    <string name="ping_loading" translatable="false">…</string>
+    <string name="ping_timeout" translatable="false">T/O</string>
     <string name="ping_ms_format" translatable="false">%dms</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Global Auto</string>
+    <string name="outbound_auto_suffix"> (Auto)</string>
+    <string name="ping_individual">Ping node</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="logs">Logs</string>

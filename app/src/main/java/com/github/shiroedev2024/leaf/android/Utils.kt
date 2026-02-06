@@ -32,6 +32,26 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 object Utils {
+    data class NodeDetails(val country: String, val region: String, val ip: String)
+
+    /**
+     * Parses a node tag in the format COUNTRY_REGION_IP_WITH_UNDERSCORES Example:
+     * US_DELAWARE_103_35_190_8 -> NodeDetails("US", "DELAWARE", "103.35.190.8")
+     */
+    fun parseNodeTag(tag: String): NodeDetails? {
+        val nodePattern = Regex("^([A-Z]{2})_([A-Z_]+)_(\\d+(_\\d+){3})$")
+        val match = nodePattern.find(tag)
+        return if (match != null) {
+            NodeDetails(
+                country = match.groupValues[1],
+                region = match.groupValues[2].replace("_", " "),
+                ip = match.groupValues[3].replace("_", "."),
+            )
+        } else {
+            null
+        }
+    }
+
     fun getRelativeTime(date: Date): String {
         val diffInMillis = Date().time - date.time
 
@@ -91,20 +111,27 @@ object Utils {
 
     fun getCountryInfo(isoCode: String): String {
         if (isoCode == "AUTO") {
-            return "\uD83C\uDF10 Auto"
+            return MainApplication.getString(R.string.outbound_global_auto)
         }
 
-        val countryCode = CountryCode.getByCode(isoCode.uppercase(Locale.ENGLISH))
+        val isAutoSub = isoCode.endsWith("_AUTO")
+        val cleanIso = if (isAutoSub) isoCode.substringBefore("_AUTO") else isoCode
+
+        val countryCode = CountryCode.getByCode(cleanIso.uppercase(Locale.ENGLISH))
         return if (countryCode != null) {
             val flag =
-                isoCode
+                cleanIso
                     .uppercase(Locale.ENGLISH)
                     .map { String(Character.toChars(0x1F1E6 + (it - 'A'))) }
                     .joinToString("")
             val countryName = countryCode.getName()
-            "$flag $countryName"
+            if (isAutoSub) {
+                "$flag $countryName${MainApplication.getString(R.string.outbound_auto_suffix)}"
+            } else {
+                "$flag $countryName"
+            }
         } else {
-            "Invalid ISO code"
+            isoCode
         }
     }
 

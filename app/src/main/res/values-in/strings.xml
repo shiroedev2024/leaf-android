@@ -148,4 +148,7 @@
     <string name="notification_title">Layanan VPN Lite</string>
     <string name="notification_content">Layanan VPN Lite yang didukung oleh platform Surfshield.</string>
     <string name="notification_stop_button">Hentikan VPN</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Auto Global</string>
+    <string name="outbound_auto_suffix"> (Auto)</string>
+    <string name="ping_individual">Ping node</string>
 </resources>

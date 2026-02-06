@@ -148,4 +148,7 @@
     <string name="notification_title">Lite VPN Servisi</string>
     <string name="notification_content">Surfshield platformu tarafından desteklenen bir Lite VPN servisi.</string>
     <string name="notification_stop_button">VPN\'i Durdur</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Global Otomatik</string>
+    <string name="outbound_auto_suffix"> (Otomatik)</string>
+    <string name="ping_individual">Node\'u ping yap</string>
 </resources>

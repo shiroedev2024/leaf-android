@@ -148,4 +148,7 @@
     <string name="notification_title">Сервис Lite VPN</string>
     <string name="notification_content">Сервис Lite VPN на базе платформы Surfshield.</string>
     <string name="notification_stop_button">Остановить VPN</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Глобальный Авто</string>
+    <string name="outbound_auto_suffix"> (Авто)</string>
+    <string name="ping_individual">Пинг узла</string>
 </resources>

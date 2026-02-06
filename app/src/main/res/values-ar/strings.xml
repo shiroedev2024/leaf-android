@@ -148,4 +148,7 @@
     <string name="notification_title">خدمة VPN لايت</string>
     <string name="notification_content">خدمة VPN لايت مدعومة بمنصة Surfshield.</string>
     <string name="notification_stop_button">إيقاف VPN</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 تلقائي عالمي</string>
+    <string name="outbound_auto_suffix"> (تلقائي)</string>
+    <string name="ping_individual">بينج العقدة</string>
 </resources>

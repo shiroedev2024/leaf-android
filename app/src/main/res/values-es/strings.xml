@@ -148,4 +148,7 @@
     <string name="notification_title">Servicio VPN Lite</string>
     <string name="notification_content">Un servicio VPN Lite impulsado por la plataforma Surfshield.</string>
     <string name="notification_stop_button">Detener VPN</string>
+    <string name="outbound_global_auto">\uD83C\uDF10 Auto Global</string>
+    <string name="outbound_auto_suffix"> (Auto)</string>
+    <string name="ping_individual">Hacer ping al nodo</string>
 </resources>

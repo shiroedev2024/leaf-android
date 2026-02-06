@@ -72,6 +72,9 @@ class LeafViewModel : ViewModel() {
         MutableStateFlow(mutableStateListOf())
     val outbounds: StateFlow<SnapshotStateList<OutboundInfo>> = _outbounds
 
+    private var _selectedSubgroupTag: MutableLiveData<String?> = MutableLiveData(null)
+    val selectedSubgroupTag: LiveData<String?> = _selectedSubgroupTag
+
     private var _pingValues: MutableStateFlow<Map<String, Double?>> = MutableStateFlow(emptyMap())
     val pingValues: StateFlow<Map<String, Double?>> = _pingValues
 
@@ -226,36 +229,59 @@ class LeafViewModel : ViewModel() {
         Log.d("LeafAndroid", "onCleared")
     }
 
-    fun getOutboundList() {
+    fun getOutboundList(tag: String? = null) {
         viewModelScope.launch {
+            val currentTag = tag ?: _selectedSubgroupTag.value ?: "OUT"
             _outboundState.value = OutboundState.Loading
 
             try {
                 val outboundItems =
-                    withContext(Dispatchers.IO) { leafApi?.getSelectOutboundItems("OUT") }
-                Log.d("LeafAndroid", outboundItems.toString())
+                    withContext(Dispatchers.IO) { leafApi?.getSelectOutboundItems(currentTag) }
+                val selectedResponse =
+                    withContext(Dispatchers.IO) {
+                        leafApi?.getCurrentSelectOutboundItem(currentTag)
+                    }
+
+                val selectedName = selectedResponse?.selected
 
                 _outbounds.value.clear()
-                _outbounds.value.addAll(outboundItems?.outbounds.orEmpty())
+                outboundItems?.outbounds?.forEach { outbound ->
+                    outbound.isSelected = outbound.name == selectedName
+                    _outbounds.value.add(outbound)
+                }
 
                 _outboundState.value = OutboundState.Success
             } catch (e: Exception) {
-                Log.e("LeafAndroid", "Error fetching outbound items: ${e.message}")
+                Log.e("LeafAndroid", "Error fetching outbound items for $currentTag: ${e.message}")
                 _outboundState.value = OutboundState.Error(e.message.orEmpty())
             }
         }
     }
 
+    fun setSubgroup(tag: String?) {
+        _selectedSubgroupTag.value = tag
+        getOutboundList(tag ?: "OUT")
+    }
+
     fun changeSelectedOutbound(outbound: String) {
         viewModelScope.launch {
+            val currentTag = _selectedSubgroupTag.value ?: "OUT"
             _outboundState.value = OutboundState.Loading
 
             try {
-                withContext(Dispatchers.IO) { leafApi?.setSelectOutboundItem("OUT", outbound) }
-                Log.d("LeafAndroid", "Selected outbound changed to $outbound")
+                withContext(Dispatchers.IO) { leafApi?.setSelectOutboundItem(currentTag, outbound) }
+                Log.d("LeafAndroid", "Selected outbound changed to $outbound for tag $currentTag")
 
-                _outbounds.value.first { it.isSelected }.isSelected = false
-                _outbounds.value.first { it.name == outbound }.isSelected = true
+                // If we are in a subgroup, selecting a node should also set OUT to point to that
+                // country
+                if (currentTag != "OUT") {
+                    withContext(Dispatchers.IO) {
+                        leafApi?.setSelectOutboundItem("OUT", currentTag)
+                    }
+                }
+
+                // Update local selection state
+                _outbounds.value.forEach { it.isSelected = it.name == outbound }
 
                 _outboundState.value = OutboundState.Success
             } catch (e: Exception) {
@@ -383,44 +409,64 @@ class LeafViewModel : ViewModel() {
                 _isRefreshingPings.value = true
 
                 try {
-                    val currentPings = _outbounds.value.associate { it.name to Double.NaN }
-                    _pingValues.value = currentPings
+                    val currentOutbounds = _outbounds.value.toList()
+                    val initialPings =
+                        currentOutbounds.associate { it.name to Double.NaN }.toMutableMap()
+                    _pingValues.value = initialPings
 
-                    // Ping each outbound
-                    val newPings = mutableMapOf<String, Double?>()
-                    _outbounds.value.forEach { outbound ->
-                        try {
-                            val health =
-                                withContext(Dispatchers.IO) {
-                                    leafApi?.getOutboundHealth(outbound.name)
-                                }
+                    // Ping each outbound in parallel
+                    val childJobs =
+                        currentOutbounds.map { outbound ->
+                            launch {
+                                val pingValue =
+                                    try {
+                                        val health =
+                                            withContext(Dispatchers.IO) {
+                                                leafApi?.getOutboundHealth(outbound.name)
+                                            }
 
-                            // Use TCP first, fallback to UDP
-                            val pingValue =
-                                when {
-                                    health?.tcpMs != null -> health.tcpMs
-                                    health?.udpMs != null -> health.udpMs
-                                    else -> null
-                                }
+                                        // Use TCP first, fallback to UDP
+                                        when {
+                                            health?.tcpMs != null -> health.tcpMs
+                                            health?.udpMs != null -> health.udpMs
+                                            else -> null
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.e("LeafAndroid", "Failed to ping ${outbound.name}", e)
+                                        null
+                                    }
 
-                            newPings[outbound.name] = pingValue
-                        } catch (e: Exception) {
-                            Log.e("LeafAndroid", "Failed to ping ${outbound.name}", e)
-                            newPings[outbound.name] = null
+                                // Update map on main thread (which is the default for this scope)
+                                val nextPings = _pingValues.value.toMutableMap()
+                                nextPings[outbound.name] = pingValue
+                                _pingValues.value = nextPings
+                            }
                         }
-                    }
 
-                    _pingValues.value = newPings
+                    // Wait for all child ping jobs to complete
+                    childJobs.forEach { it.join() }
                 } catch (e: Exception) {
                     Log.e("LeafAndroid", "Error in refreshPings", e)
                 } finally {
-                    _isRefreshingPings.value = false
+                    // All child jobs have completed due to the join() call above
+                    // The separate job below handles isRefreshingPings state coordination
                 }
             }
+
+        // We use a separate job to manage the refreshing state if we want it to be precise
+        viewModelScope.launch {
+            pingJob?.join()
+            _isRefreshingPings.value = false
+        }
     }
 
     fun pingOutbound(outboundName: String) {
         viewModelScope.launch {
+            // Set to loading
+            val currentPings = _pingValues.value.toMutableMap()
+            currentPings[outboundName] = Double.NaN
+            _pingValues.value = currentPings
+
             try {
                 val health =
                     withContext(Dispatchers.IO) { leafApi?.getOutboundHealth(outboundName) }
@@ -432,15 +478,15 @@ class LeafViewModel : ViewModel() {
                         else -> null
                     }
 
-                val currentPings = _pingValues.value.toMutableMap()
-                currentPings[outboundName] = pingValue
-                _pingValues.value = currentPings
+                val finalPings = _pingValues.value.toMutableMap()
+                finalPings[outboundName] = pingValue
+                _pingValues.value = finalPings
             } catch (e: Exception) {
                 Log.e("LeafAndroid", "Failed to ping $outboundName", e)
 
-                val currentPings = _pingValues.value.toMutableMap()
-                currentPings[outboundName] = null
-                _pingValues.value = currentPings
+                val finalPings = _pingValues.value.toMutableMap()
+                finalPings[outboundName] = null
+                _pingValues.value = finalPings
             }
         }
     }

@@ -35,7 +35,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.shiroedev2024.leaf.android.R
 import com.github.shiroedev2024.leaf.android.getPingColor
@@ -47,23 +46,48 @@ import com.github.shiroedev2024.leaf.android.viewmodel.LeafViewModel
 @Composable
 fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) {
     val outboundState by leafViewModel.outboundState.observeAsState()
+    val selectedSubgroupTag by leafViewModel.selectedSubgroupTag.observeAsState()
     val outbounds by leafViewModel.outbounds.collectAsState()
     val pingValues by leafViewModel.pingValues.collectAsState()
     val isRefreshingPings by leafViewModel.isRefreshingPings.observeAsState()
     val lazyListState = rememberLazyListState()
 
+    val currentTitle =
+        when {
+            selectedSubgroupTag == null -> stringResource(R.string.outbound_title)
+            selectedSubgroupTag == "AUTO" -> stringResource(R.string.outbound_global_auto)
+            selectedSubgroupTag!!.length == 2 -> selectedSubgroupTag!!.parseAsCountryInfo()
+            else -> selectedSubgroupTag!!
+        }
+
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
         when (outboundState) {
             is LeafViewModel.OutboundState.Success -> {
-                // Header with ping button
+                // Header with back button and title
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    if (selectedSubgroupTag != null) {
+                        IconButton(
+                            onClick = { leafViewModel.setSubgroup(null) },
+                            modifier = Modifier.padding(end = 4.dp),
+                        ) {
+                            Icon(
+                                imageVector =
+                                    ImageVector.vectorResource(
+                                        id = R.drawable.baseline_arrow_back_24
+                                    ),
+                                contentDescription = stringResource(R.string.back),
+                            )
+                        }
+                    }
+
                     Text(
-                        text = stringResource(R.string.outbound_title),
+                        text = currentTitle,
                         style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.weight(1f),
                     )
 
                     IconButton(
@@ -85,7 +109,16 @@ fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier)
                         OutboundCard(
                             outboundInfo = outbound,
                             pingMs = pingValues[outbound.name],
-                            onSelect = { leafViewModel.changeSelectedOutbound(outbound.name) },
+                            onSelect = {
+                                if (selectedSubgroupTag == null && outbound.name.length == 2) {
+                                    // Enter subgroup
+                                    leafViewModel.setSubgroup(outbound.name)
+                                } else {
+                                    // Select outbound
+                                    leafViewModel.changeSelectedOutbound(outbound.name)
+                                }
+                            },
+                            onPing = { leafViewModel.pingOutbound(outbound.name) },
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                     }
@@ -124,6 +157,7 @@ fun OutboundCard(
     outboundInfo: OutboundInfo,
     pingMs: Double?,
     onSelect: () -> Unit,
+    onPing: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -145,25 +179,66 @@ fun OutboundCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // Country info
-            Text(
-                text = outboundInfo.name.parseAsCountryInfo(),
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Start,
-                style =
-                    if (outboundInfo.isSelected) {
-                        MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    } else {
-                        MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    },
-            )
+            val nodeDetails =
+                com.github.shiroedev2024.leaf.android.Utils.parseNodeTag(outboundInfo.name)
+            val contentColor =
+                if (outboundInfo.isSelected) MaterialTheme.colorScheme.onPrimary
+                else MaterialTheme.colorScheme.onSurface
 
-            // Ping indicator
-            PingIndicator(pingMs = pingMs, isSelected = outboundInfo.isSelected)
+            // Info section
+            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+                if (nodeDetails != null) {
+                    val emoji =
+                        com.github.shiroedev2024.leaf.android.Utils.getCountryInfo(
+                                nodeDetails.country
+                            )
+                            .split(" ")[0]
+                    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = emoji, style = MaterialTheme.typography.bodyLarge)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = nodeDetails.region,
+                                style =
+                                    MaterialTheme.typography.bodyLarge.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = contentColor,
+                                    ),
+                            )
+                        }
+                        Text(
+                            text = nodeDetails.ip,
+                            style =
+                                MaterialTheme.typography.bodySmall.copy(
+                                    color = contentColor.copy(alpha = 0.7f)
+                                ),
+                            modifier = Modifier.padding(start = 32.dp),
+                        )
+                    }
+                } else {
+                    Text(
+                        text = outboundInfo.name.parseAsCountryInfo(),
+                        style = MaterialTheme.typography.bodyLarge.copy(color = contentColor),
+                    )
+                }
+            }
+
+            // Ping section
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                PingIndicator(pingMs = pingMs, isSelected = outboundInfo.isSelected)
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                IconButton(onClick = { onPing() }, modifier = Modifier.size(32.dp)) {
+                    Icon(
+                        imageVector =
+                            ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
+                        contentDescription = stringResource(R.string.ping_individual),
+                        tint = contentColor.copy(alpha = 0.6f),
+                        modifier = Modifier.size(16.dp),
+                    )
+                }
+            }
         }
     }
 }
