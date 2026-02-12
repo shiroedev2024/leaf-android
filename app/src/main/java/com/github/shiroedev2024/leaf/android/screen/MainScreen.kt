@@ -25,16 +25,29 @@ import android.content.Context
 import android.content.Intent
 import android.util.Base64
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -109,6 +122,9 @@ fun MainScreen(
     val context = LocalContext.current
     var clipboardImportDialogVisible by remember { mutableStateOf(false) }
     var clipboardProfileText by remember { mutableStateOf<String?>(null) }
+    var launchBundlePicker by remember { mutableStateOf(false) }
+    var fabExpanded by remember { mutableStateOf(false) }
+    val rotation by animateFloatAsState(if (fabExpanded) 45f else 0f, label = "fabRotation")
 
     fun importFromClipboard() {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -136,6 +152,13 @@ fun MainScreen(
     }
 
     val serviceState by leafViewModel.serviceState.observeAsState()
+    val pendingImportUri by leafViewModel.pendingImportUri.collectAsState()
+
+    LaunchedEffect(pendingImportUri) {
+        if (pendingImportUri != null && currentRoute != Screen.Profile.route) {
+            navController.navigateSingleTop(Screen.Profile.route)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -177,12 +200,45 @@ fun MainScreen(
                 currentRoute == Screen.Profile.route &&
                     serviceState == LeafViewModel.ServiceState.Connected
             ) {
-                FloatingActionButton(onClick = { importFromClipboard() }) {
-                    Icon(
-                        imageVector =
-                            ImageVector.vectorResource(id = R.drawable.baseline_content_paste_24),
-                        contentDescription = stringResource(R.string.import_profile_clipboard),
-                    )
+                Column(horizontalAlignment = androidx.compose.ui.Alignment.End) {
+                    AnimatedVisibility(
+                        visible = fabExpanded,
+                        enter = fadeIn() + scaleIn(),
+                        exit = fadeOut() + scaleOut(),
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalAlignment = androidx.compose.ui.Alignment.End,
+                            modifier = Modifier.padding(bottom = 8.dp),
+                        ) {
+                            FabActionItem(
+                                label = stringResource(R.string.import_leafsub),
+                                iconId = R.drawable.baseline_upload_24,
+                                onClick = {
+                                    fabExpanded = false
+                                    launchBundlePicker = true
+                                },
+                            )
+
+                            FabActionItem(
+                                label = stringResource(R.string.import_profile_clipboard),
+                                iconId = R.drawable.baseline_content_paste_24,
+                                onClick = {
+                                    fabExpanded = false
+                                    importFromClipboard()
+                                },
+                            )
+                        }
+                    }
+
+                    FloatingActionButton(onClick = { fabExpanded = !fabExpanded }) {
+                        Icon(
+                            modifier = Modifier.rotate(rotation),
+                            imageVector =
+                                ImageVector.vectorResource(id = R.drawable.baseline_add_24),
+                            contentDescription = stringResource(R.string.import_profile),
+                        )
+                    }
                 }
             }
         },
@@ -200,7 +256,13 @@ fun MainScreen(
                     onNavigateToProfile = { navController.navigateSingleTop(Screen.Profile.route) },
                 )
             }
-            composable(Screen.Profile.route) { ProfileContent(leafViewModel) }
+            composable(Screen.Profile.route) {
+                ProfileContent(
+                    leafViewModel,
+                    shouldLaunchBundlePicker = launchBundlePicker,
+                    onBundlePickerConsumed = { launchBundlePicker = false },
+                )
+            }
             composable(Screen.Settings.route) {
                 SettingsContent(leafViewModel, updateViewModel) { locale -> onUpdateLocale(locale) }
             }
@@ -220,4 +282,26 @@ fun MainScreen(
             },
         )
     }
+}
+
+@Composable
+private fun FabActionItem(label: String, iconId: Int, onClick: () -> Unit) {
+    ExtendedFloatingActionButton(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        text = {
+            Text(
+                text = label,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 13.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        icon = {
+            Icon(imageVector = ImageVector.vectorResource(id = iconId), contentDescription = label)
+        },
+    )
 }

@@ -154,4 +154,9 @@
     <string name="notification_title">Lite VPN Service</string>
     <string name="notification_content">A Lite VPN service powered by the Surfshield platform.</string>
     <string name="notification_stop_button">Stop VPN</string>
+    <string name="import_leafsub">Import bundle</string>
+    <string name="import_leafsub_title">Import Leaf bundle</string>
+    <string name="leafsub_passphrase">Passphrase (optional)</string>
+    <string name="leafsub_wrong_extension">Only .leafsub files are supported.</string>
+    <string name="import_leafsub_action">Import</string>
 </resources>

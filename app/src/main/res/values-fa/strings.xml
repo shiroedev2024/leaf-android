@@ -148,6 +148,11 @@
     <string name="notification_title">سرویس VPN لایت</string>
     <string name="notification_content">یک سرویس VPN لایت که توسط پلتفرم Surfshield پشتیبانی می‌شود.</string>
     <string name="notification_stop_button">توقف VPN</string>
+    <string name="import_leafsub">وارد کردن بسته</string>
+    <string name="import_leafsub_title">وارد کردن بسته Leaf</string>
+    <string name="leafsub_passphrase">عبارت عبور (اختیاری)</string>
+    <string name="leafsub_wrong_extension">فقط فایل‌های .leafsub پشتیبانی می‌شوند.</string>
+    <string name="import_leafsub_action">وارد کردن</string>
     <string name="outbound_global_auto">\uD83C\uDF10 خودکار جهانی</string>
     <string name="outbound_auto_suffix"> (خودکار)</string>
     <string name="ping_individual">پینگ گره</string>

@@ -148,6 +148,11 @@
     <string name="notification_title">Servicio VPN Lite</string>
     <string name="notification_content">Un servicio VPN Lite impulsado por la plataforma Surfshield.</string>
     <string name="notification_stop_button">Detener VPN</string>
+    <string name="import_leafsub">Importar paquete</string>
+    <string name="import_leafsub_title">Importar paquete Leaf</string>
+    <string name="leafsub_passphrase">Frase de acceso (opcional)</string>
+    <string name="leafsub_wrong_extension">Solo se admiten archivos .leafsub.</string>
+    <string name="import_leafsub_action">Importar</string>
     <string name="outbound_global_auto">\uD83C\uDF10 Auto Global</string>
     <string name="outbound_auto_suffix"> (Auto)</string>
     <string name="ping_individual">Hacer ping al nodo</string>

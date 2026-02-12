@@ -151,4 +151,9 @@
     <string name="outbound_global_auto">\uD83C\uDF10 Global Avto</string>
     <string name="outbound_auto_suffix"> (Avto)</string>
     <string name="ping_individual">Node ga ping</string>
+    <string name="import_leafsub">Paketni import qilish</string>
+    <string name="import_leafsub_title">Leaf paketini import qilish</string>
+    <string name="leafsub_passphrase">Parol iborasi (ixtiyoriy)</string>
+    <string name="leafsub_wrong_extension">Faqat .leafsub fayllari qo‘llab-quvvatlanadi.</string>
+    <string name="import_leafsub_action">Import qilish</string>
 </resources>

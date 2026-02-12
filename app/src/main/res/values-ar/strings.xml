@@ -151,4 +151,9 @@
     <string name="outbound_global_auto">\uD83C\uDF10 تلقائي عالمي</string>
     <string name="outbound_auto_suffix"> (تلقائي)</string>
     <string name="ping_individual">بينج العقدة</string>
+    <string name="import_leafsub">استيراد الحزمة</string>
+    <string name="import_leafsub_title">استيراد حزمة Leaf</string>
+    <string name="leafsub_passphrase">عبارة مرور (اختياري)</string>
+    <string name="leafsub_wrong_extension">يتم دعم ملفات .leafsub فقط.</string>
+    <string name="import_leafsub_action">استيراد</string>
 </resources>

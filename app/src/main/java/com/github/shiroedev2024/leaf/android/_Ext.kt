@@ -79,9 +79,16 @@ fun String?.getExpirationTextColor(): Color {
 }
 
 fun parseDateToMillis(dateString: String): Long {
-    val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    val date = format.parse(dateString)
-    return date?.time ?: 0L
+    val formats = listOf("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd")
+    for (pattern in formats) {
+        try {
+            val format = SimpleDateFormat(pattern, Locale.getDefault())
+            format.isLenient = false
+            val date = format.parse(dateString)
+            if (date != null) return date.time
+        } catch (_: Exception) {}
+    }
+    return 0L
 }
 
 fun String.parseAsCountryInfo(): String {

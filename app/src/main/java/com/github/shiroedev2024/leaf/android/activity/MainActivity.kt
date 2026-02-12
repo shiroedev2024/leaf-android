@@ -90,6 +90,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (intent?.action == Intent.ACTION_VIEW) {
+            intent.data?.let { leafViewModel.setPendingImportUri(it) }
+        }
+
         if (
             ContextCompat.checkSelfPermission(
                 this,
@@ -185,6 +189,13 @@ class MainActivity : BaseActivity() {
         super.onResume()
 
         updateViewModel.checkForUpdate(3)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == Intent.ACTION_VIEW) {
+            intent.data?.let { leafViewModel.setPendingImportUri(it) }
+        }
     }
 
     private fun startVPN() {

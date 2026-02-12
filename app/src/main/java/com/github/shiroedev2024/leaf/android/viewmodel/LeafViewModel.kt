@@ -20,6 +20,7 @@
  */
 package com.github.shiroedev2024.leaf.android.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -89,6 +90,9 @@ class LeafViewModel : ViewModel() {
 
     private var _isRefreshingPings: MutableLiveData<Boolean> = MutableLiveData(false)
     val isRefreshingPings: LiveData<Boolean> = _isRefreshingPings
+
+    private val _pendingImportUri: MutableStateFlow<Uri?> = MutableStateFlow(null)
+    val pendingImportUri: StateFlow<Uri?> = _pendingImportUri
 
     private val leafListener =
         object : LeafListener {
@@ -227,6 +231,14 @@ class LeafViewModel : ViewModel() {
         autoPingJob?.cancel()
 
         Log.d("LeafAndroid", "onCleared")
+    }
+
+    fun setPendingImportUri(uri: Uri?) {
+        _pendingImportUri.value = uri
+    }
+
+    fun clearPendingImportUri() {
+        _pendingImportUri.value = null
     }
 
     fun getOutboundList(tag: String? = null) {
@@ -383,6 +395,26 @@ class LeafViewModel : ViewModel() {
     fun updateSubscription(clientId: String) {
         _subscriptionState.value = SubscriptionState.Fetching
         ServiceManagement.getInstance().updateSubscription(clientId, subscriptionCallback)
+    }
+
+    fun importOfflineSubscription(path: String, passphrase: String?) {
+        _subscriptionState.value = SubscriptionState.Fetching
+
+        val keyIds = listOf("k1")
+        val verifyingKeys = listOf("FjBD6zMrxVtHpWqzqsuFmT8uB7RZKmMuO94nT0N5LKo")
+
+        try {
+            ServiceManagement.getInstance()
+                .importOfflineSubscription(
+                    path,
+                    passphrase,
+                    keyIds,
+                    verifyingKeys,
+                    subscriptionCallback,
+                )
+        } catch (e: Exception) {
+            _subscriptionState.value = SubscriptionState.Error(e.message.orEmpty())
+        }
     }
 
     fun updateCustomSubscription(config: String) {

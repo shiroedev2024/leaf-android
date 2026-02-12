@@ -20,7 +20,12 @@
  */
 package com.github.shiroedev2024.leaf.android.screen
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,6 +56,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -72,16 +78,54 @@ import com.github.shiroedev2024.leaf.android.getRemainingTrafficTextColor
 import com.github.shiroedev2024.leaf.android.library.ServiceManagement
 import com.github.shiroedev2024.leaf.android.parseAsLastUpdatedTime
 import com.github.shiroedev2024.leaf.android.viewmodel.LeafViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 @Composable
-fun ProfileContent(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) {
+fun ProfileContent(
+    leafViewModel: LeafViewModel,
+    modifier: Modifier = Modifier,
+    shouldLaunchBundlePicker: Boolean = false,
+    onBundlePickerConsumed: () -> Unit = {},
+) {
     val serviceState by leafViewModel.serviceState.observeAsState()
     val subscriptionState by leafViewModel.subscriptionState.observeAsState()
     val preferencesState by leafViewModel.preferencesState.observeAsState()
+    val pendingImportUri by leafViewModel.pendingImportUri.collectAsState()
 
     var currentId by remember { mutableStateOf("") }
+    var importDialogVisible by remember { mutableStateOf(false) }
+    var selectedImportUri by remember { mutableStateOf<Uri?>(null) }
+    var selectedImportName by remember { mutableStateOf("") }
+    var importPassphrase by remember { mutableStateOf("") }
+    var importError by remember { mutableStateOf<String?>(null) }
 
     val context = LocalContext.current
+
+    val openDocumentLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenDocument()) { uri
+            ->
+            if (uri != null) {
+                val name = getDisplayName(context, uri).orEmpty()
+                if (!name.endsWith(".leafsub", ignoreCase = true)) {
+                    importError = context.getString(R.string.leafsub_wrong_extension)
+                    leafViewModel.clearPendingImportUri()
+                    return@rememberLauncherForActivityResult
+                }
+                try {
+                    context.contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                    )
+                } catch (_: Exception) {}
+                selectedImportUri = uri
+                selectedImportName = name
+                importDialogVisible = true
+                importError = null
+            }
+        }
 
     LaunchedEffect(preferencesState) {
         if (preferencesState is LeafViewModel.PreferencesState.Success) {
@@ -89,6 +133,46 @@ fun ProfileContent(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) 
                 (preferencesState as LeafViewModel.PreferencesState.Success).preferences
             Log.d("LeafAndroid", "Client ID: ${preferences.clientId}")
             currentId = preferences.clientId ?: ""
+        }
+    }
+
+    LaunchedEffect(shouldLaunchBundlePicker) {
+        if (shouldLaunchBundlePicker) {
+            importError = null
+            openDocumentLauncher.launch(arrayOf("*/*"))
+            onBundlePickerConsumed()
+        }
+    }
+
+    LaunchedEffect(subscriptionState) {
+        if (subscriptionState is LeafViewModel.SubscriptionState.Success) {
+            importDialogVisible = false
+            importPassphrase = ""
+            importError = null
+            selectedImportUri = null
+            selectedImportName = ""
+            leafViewModel.clearPendingImportUri()
+        }
+    }
+
+    LaunchedEffect(pendingImportUri) {
+        pendingImportUri?.let { uri ->
+            val name = getDisplayName(context, uri).orEmpty()
+            if (name.endsWith(".leafsub", ignoreCase = true)) {
+                try {
+                    context.contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                    )
+                } catch (_: Exception) {}
+                selectedImportUri = uri
+                selectedImportName = name
+                importDialogVisible = true
+                importError = null
+            } else {
+                importError = context.getString(R.string.leafsub_wrong_extension)
+                leafViewModel.clearPendingImportUri()
+            }
         }
     }
 
@@ -300,6 +384,112 @@ fun ProfileContent(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) 
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
+
+    if (importDialogVisible && selectedImportUri != null) {
+        AlertDialog(
+            onDismissRequest = {
+                if (subscriptionState !is LeafViewModel.SubscriptionState.Fetching) {
+                    importDialogVisible = false
+                    importPassphrase = ""
+                    importError = null
+                    leafViewModel.clearPendingImportUri()
+                }
+            },
+            title = { Text(text = stringResource(R.string.import_leafsub_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(text = selectedImportName)
+                    OutlinedTextField(
+                        value = importPassphrase,
+                        onValueChange = { importPassphrase = it },
+                        label = { Text(text = stringResource(R.string.leafsub_passphrase)) },
+                        singleLine = true,
+                    )
+                    if (importError != null) {
+                        MessageComponent(type = MessageType.ERROR, message = importError!!)
+                    }
+                    if (subscriptionState is LeafViewModel.SubscriptionState.Error) {
+                        val err = subscriptionState as LeafViewModel.SubscriptionState.Error
+                        MessageComponent(type = MessageType.ERROR, message = err.error)
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        selectedImportUri?.let { uri ->
+                            try {
+                                val path = copyUriToTempFile(context, uri)
+                                leafViewModel.importOfflineSubscription(
+                                    path,
+                                    importPassphrase.ifBlank { null },
+                                )
+                            } catch (e: Exception) {
+                                importError = e.message
+                            }
+                        }
+                    },
+                    enabled = subscriptionState !is LeafViewModel.SubscriptionState.Fetching,
+                ) {
+                    if (subscriptionState is LeafViewModel.SubscriptionState.Fetching) {
+                        CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                    }
+                    Text(text = stringResource(R.string.import_leafsub_action))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        importDialogVisible = false
+                        importPassphrase = ""
+                        importError = null
+                        leafViewModel.clearPendingImportUri()
+                    },
+                    enabled = subscriptionState !is LeafViewModel.SubscriptionState.Fetching,
+                ) {
+                    Text(text = stringResource(R.string.cancel))
+                }
+            },
+        )
+    }
+}
+
+private fun copyUriToTempFile(context: android.content.Context, uri: Uri): String {
+    val fileName = getDisplayName(context, uri) ?: "leafsub_${System.currentTimeMillis()}.leafsub"
+    val tempFile = File(context.cacheDir, fileName)
+    context.contentResolver.openInputStream(uri).use { input ->
+        FileOutputStream(tempFile).use { output -> copyStream(input, output) }
+    }
+    return tempFile.absolutePath
+}
+
+private fun copyStream(input: InputStream?, output: OutputStream) {
+    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+    var bytesRead: Int
+    if (input == null) return
+    while (true) {
+        bytesRead = input.read(buffer)
+        if (bytesRead == -1) break
+        output.write(buffer, 0, bytesRead)
+    }
+}
+
+private fun getDisplayName(context: android.content.Context, uri: Uri): String? {
+    val cursor =
+        context.contentResolver.query(
+            uri,
+            arrayOf(android.provider.OpenableColumns.DISPLAY_NAME),
+            null,
+            null,
+            null,
+        )
+    cursor?.use {
+        if (it.moveToFirst()) {
+            val nameIndex = it.getColumnIndexOrThrow(android.provider.OpenableColumns.DISPLAY_NAME)
+            return it.getString(nameIndex)
+        }
+    }
+    return null
 }
 
 @Composable
