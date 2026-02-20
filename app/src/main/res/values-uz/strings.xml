@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Barcha sozlamalarni standart qiymatlarga qaytarish.</string>
     <string name="load_defaults_confirm_title">Standart sozlamalarni yuklash?</string>
     <string name="load_defaults_confirm_message">Bu barcha sozlamalarni standart qiymatlariga qaytaradi. Davom ettirishga ishonchingiz komilmi?</string>
-    <string name="release_notes">Yaxshi barqarorlik va unumdorlik uchun Leaf Core yangilandi\nYaxshi foydalanuvchi tajribasi uchun ilova resurslari yaxshilandi\nKengaytirilgan moslik uchun yangi VPN protokollari qo‘llab-quvvatlandi\nBezaklarni kamaytirish uchun ortiqcha monitoring bildirnomlari o‘chirildi\nBatareyaga do‘stona ishlashi uchun unumdorlik optimallashtirildi</string>
+    <string name="release_notes">Aqlli protokol tanlashini yaxshilash</string>
     <string name="app_updates">Ilova Yangilanishlari</string>
     <string name="check_for_updates">Yangilanishlarni Tekshirish</string>
     <string name="check_for_updates_description">Leaf VPN ning yangiroq versiyasi mavjudligini qo\'lda tekshiring.</string>

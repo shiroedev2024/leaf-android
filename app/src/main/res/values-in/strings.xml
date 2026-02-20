@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Setel ulang semua pengaturan ke nilai default.</string>
     <string name="load_defaults_confirm_title">Muat Pengaturan Default?</string>
     <string name="load_defaults_confirm_message">Ini akan mengatur ulang semua pengaturan ke nilai default. Apakah Anda yakin ingin melanjutkan?</string>
-    <string name="release_notes">Memperbarui Leaf Core untuk stabilitas dan performa yang lebih baik\nMeningkatkan aset aplikasi untuk pengalaman pengguna yang lebih baik\nMenambahkan dukungan untuk protokol VPN baru untuk kompatibilitas yang lebih luas\nMenonaktifkan notifikasi pemantauan berlebihan untuk mengurangi gangguan\nMengoptimalkan performa untuk operasi yang ramah baterai</string>
+    <string name="release_notes">Meningkatkan pemilihan protokol cerdas</string>
     <string name="app_updates">Pembaruan Aplikasi</string>
     <string name="check_for_updates">Periksa Pembaruan</string>
     <string name="check_for_updates_description">Periksa secara manual apakah ada versi Leaf VPN yang lebih baru tersedia.</string>
@@ -151,4 +151,9 @@
     <string name="outbound_global_auto">\uD83C\uDF10 Auto Global</string>
     <string name="outbound_auto_suffix"> (Auto)</string>
     <string name="ping_individual">Ping node</string>
+    <string name="import_leafsub">Impor paket</string>
+    <string name="import_leafsub_title">Impor paket Leaf</string>
+    <string name="leafsub_passphrase">Fras sandi (opsional)</string>
+    <string name="leafsub_wrong_extension">Hanya file .leafsub yang didukung.</string>
+    <string name="import_leafsub_action">Impor</string>
 </resources>

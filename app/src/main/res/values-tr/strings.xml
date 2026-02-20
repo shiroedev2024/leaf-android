@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Tüm ayarları varsayılan değerlerine sıfırlayın.</string>
     <string name="load_defaults_confirm_title">Varsayılan Ayarları Yükle?</string>
     <string name="load_defaults_confirm_message">Bu, tüm ayarları varsayılan değerlerine sıfırlayacaktır. Devam etmek istediğinizden emin misiniz?</string>
-    <string name="release_notes">Daha iyi kararlılık ve performans için Leaf Core güncellendi\nDaha iyi kullanıcı deneyimi için uygulama varlıkları iyileştirildi\nGenişletilmiş uyumluluk için yeni VPN protokolleri desteği eklendi\nRahatsız edici bildirimleri azaltmak için aşırı izleme bildirimleri devre dışı bırakıldı\nPil dostu çalışma için performans optimize edildi</string>
+    <string name="release_notes">Akıllı protokol seçimini geliştir</string>
     <string name="app_updates">Uygulama Güncellemeleri</string>
     <string name="check_for_updates">Güncelleştirmeleri Kontrol Et</string>
     <string name="check_for_updates_description">Leaf VPN için daha yeni bir sürüm olup olmadığını manuel olarak kontrol edin.</string>
@@ -151,4 +151,9 @@
     <string name="outbound_global_auto">\uD83C\uDF10 Global Otomatik</string>
     <string name="outbound_auto_suffix"> (Otomatik)</string>
     <string name="ping_individual">Node\'u ping yap</string>
+    <string name="import_leafsub">Paketi içe aktar</string>
+    <string name="import_leafsub_title">Leaf paketini içe aktar</string>
+    <string name="leafsub_passphrase">Parola ifadesi (isteğe bağlı)</string>
+    <string name="leafsub_wrong_extension">Yalnızca .leafsub dosyaları desteklenir.</string>
+    <string name="import_leafsub_action">İçe aktar</string>
 </resources>

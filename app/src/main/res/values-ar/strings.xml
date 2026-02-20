@@ -134,7 +134,7 @@
     <string name="load_defaults_description">إعادة تعيين جميع الإعدادات إلى قيمها الافتراضية.</string>
     <string name="load_defaults_confirm_title">تحميل الإعدادات الافتراضية؟</string>
     <string name="load_defaults_confirm_message">سيؤدي هذا إلى إعادة تعيين جميع الإعدادات إلى قيمها الافتراضية. هل أنت متأكد من أنك تريد المتابعة؟</string>
-    <string name="release_notes">تحديث نواة Leaf لتحسين الاستقرار والأداء\nتحسين أصول التطبيق لتجربة مستخدم أفضل\nإضافة دعم لبروتوكولات VPN جديدة لتوسيع التوافق\nتعطيل إشعارات المراقبة المفرطة لتقليل المقاطعات\nتحسين الأداء لتشغيل صديق للبطارية</string>
+    <string name="release_notes">تحسين الاختيار الذكي للبروتوكول</string>
     <string name="app_updates">تحديثات التطبيق</string>
     <string name="check_for_updates">تحقق من التحديثات</string>
     <string name="check_for_updates_description">تحقق يدوياً مما إذا كان الإصدار الأحدث من Leaf VPN متاحًا.</string>

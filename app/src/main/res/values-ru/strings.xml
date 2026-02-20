@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Сбросить все настройки к значениям по умолчанию.</string>
     <string name="load_defaults_confirm_title">Загрузить Настройки По Умолчанию?</string>
     <string name="load_defaults_confirm_message">Это сбросит все настройки к значениям по умолчанию. Вы уверены, что хотите продолжить?</string>
-    <string name="release_notes">Обновлено ядро Leaf для улучшения стабильности и производительности\nУлучшены ресурсы приложения для лучшего пользовательского опыта\nДобавлена поддержка новых VPN-протоколов для расширенной совместимости\nОтключены избыточные уведомления мониторинга для уменьшения помех\nОптимизирована производительность для экономичного использования батареи</string>
+    <string name="release_notes">Улучшить интеллектуальный выбор протокола</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="check_for_updates">Проверить обновления</string>
     <string name="check_for_updates_description">Вручную проверьте, доступна ли более новая версия Leaf VPN.</string>

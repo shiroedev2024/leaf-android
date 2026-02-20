@@ -134,7 +134,7 @@
     <string name="load_defaults_description">بازنشانی همه تنظیمات به مقادیر پیش‌فرض.</string>
     <string name="load_defaults_confirm_title">بارگذاری تنظیمات پیش‌فرض؟</string>
     <string name="load_defaults_confirm_message">این کار همه تنظیمات را به مقادیر پیش‌فرض بازنشانی می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
-    <string name="release_notes">به‌روزرسانی هسته Leaf برای پایداری و عملکرد بهتر\nبهبود دارایی‌های برنامه برای تجربه کاربری بهتر\nافزودن پشتیبانی از پروتکل‌های جدید VPN برای سازگاری گسترده‌تر\nغیرفعال کردن اعلان‌های نظارت بیش از حد برای کاهش مزاحمت‌ها\nبهینه‌سازی عملکرد برای استفاده دوستانه از باتری</string>
+    <string name="release_notes">بهبود انتخاب هوشمند پروتکل</string>
     <string name="app_updates">به‌روزرسانی‌های برنامه</string>
     <string name="check_for_updates">بررسی به‌روزرسانی‌ها</string>
     <string name="check_for_updates_description">به‌ صورت دستی بررسی کنید که آیا نسخه جدیدتری از VPN برگ موجود است یا خیر.</string>
