@@ -2,7 +2,8 @@ name: Android Release
 
 on:
   push:
-    branches: [ main ]
+    tags: 
+      - 'v*.*.*'  # Only trigger on version tags like v2.2.0
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -149,7 +150,7 @@ jobs:
           draft: false
           prerelease: false
           files: release/extracted_apks/*
-          token: ${{ secrets.RELEASE_TOKEN }}
+          token: ${{ github.token }}
 
       - name: Publish to Server
         if: ${{ success() }}
