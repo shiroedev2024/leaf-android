@@ -140,7 +140,7 @@
     <string name="load_defaults_description">Reset all settings to their default values.</string>
     <string name="load_defaults_confirm_title">Load Default Settings?</string>
     <string name="load_defaults_confirm_message">This will reset all settings to their default values. Are you sure you want to continue?</string>
-    <string name="release_notes">Improve intelligent protocol selection</string>
+    <string name="release_notes">Removed old KCP protocol\nEnhanced DNS handling\nFixed some issues of WS protocol</string>
     <string name="app_updates">App Updates</string>
     <string name="check_for_updates">Check for Updates</string>
     <string name="check_for_updates_description">Manually check if a newer version of Leaf VPN is available.</string>
