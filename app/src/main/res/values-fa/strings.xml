@@ -134,7 +134,7 @@
     <string name="load_defaults_description">بازنشانی همه تنظیمات به مقادیر پیش‌فرض.</string>
     <string name="load_defaults_confirm_title">بارگذاری تنظیمات پیش‌فرض؟</string>
     <string name="load_defaults_confirm_message">این کار همه تنظیمات را به مقادیر پیش‌فرض بازنشانی می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
-    <string name="release_notes">حذف پروتکل KCP قدیمی\nبهبود مدیریت DNS\nرفع برخی مشکلات پروتکل WS</string>
+    <string name="release_notes">افزودن پروتکل MPTP جدید مخصوص روسیه\nبهبود تماس‌های VOIP و سرعت‌های DNS</string>
     <string name="app_updates">به‌روزرسانی‌های برنامه</string>
     <string name="check_for_updates">بررسی به‌روزرسانی‌ها</string>
     <string name="check_for_updates_description">به‌ صورت دستی بررسی کنید که آیا نسخه جدیدتری از VPN برگ موجود است یا خیر.</string>
