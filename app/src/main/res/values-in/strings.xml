@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Setel ulang semua pengaturan ke nilai default.</string>
     <string name="load_defaults_confirm_title">Muat Pengaturan Default?</string>
     <string name="load_defaults_confirm_message">Ini akan mengatur ulang semua pengaturan ke nilai default. Apakah Anda yakin ingin melanjutkan?</string>
-    <string name="release_notes">Tambahkan protokol MPTP baru khusus untuk Rusia\nTingkatkan panggilan VOIP dan kecepatan DNS</string>
+    <string name="release_notes">Tambahkan protokol Stealth baru\nTambahkan protokol SSH baru\nTambahkan metode baru untuk mengambil ID klien untuk pengguna Rusia\nTingkatkan kecepatan koneksi</string>
     <string name="app_updates">Pembaruan Aplikasi</string>
     <string name="check_for_updates">Periksa Pembaruan</string>
     <string name="check_for_updates_description">Periksa secara manual apakah ada versi Leaf VPN yang lebih baru tersedia.</string>
