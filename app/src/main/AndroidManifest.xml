@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Permission required by Leaf SDK for secure event broadcasts -->
-    <uses-permission android:name="com.github.shiroedev2024.leaf.android.VPN_EVENT_BROADCAST" />
+    <uses-permission android:name="${applicationId}.leaf.VPN_EVENT_BROADCAST" />
 
     <application
         android:allowBackup="true"
@@ -87,9 +87,9 @@
             android:name=".VpnEventReceiver"
             android:enabled="true"
             android:exported="false"
-            android:permission="com.github.shiroedev2024.leaf.android.VPN_EVENT_BROADCAST">
+            android:permission="${applicationId}.leaf.VPN_EVENT_BROADCAST">
             <intent-filter>
-                <action android:name="com.github.shiroedev2024.leaf.VPN_EVENT" />
+                <action android:name="${applicationId}.leaf.VPN_EVENT" />
             </intent-filter>
         </receiver>
 

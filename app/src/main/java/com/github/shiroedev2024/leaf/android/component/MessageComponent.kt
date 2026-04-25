@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.component
 

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.activity
 
@@ -49,6 +49,7 @@ class MemoryLoggerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        var wordWrapEnabled by mutableStateOf(true)
 
         setContent {
             val memoryLoggerState by leafViewModel.memoryLoggerState.observeAsState()
@@ -71,6 +72,27 @@ class MemoryLoggerActivity : BaseActivity() {
                                 }
                             },
                             actions = {
+                                IconButton(onClick = { wordWrapEnabled = !wordWrapEnabled }) {
+                                    Icon(
+                                        imageVector =
+                                            ImageVector.vectorResource(
+                                                id =
+                                                    if (wordWrapEnabled)
+                                                        R.drawable.baseline_wrap_text_24
+                                                    else
+                                                        R.drawable
+                                                            .baseline_format_textdirection_l_to_r_24
+                                            ),
+                                        contentDescription =
+                                            if (wordWrapEnabled)
+                                                stringResource(R.string.word_wrap_on)
+                                            else stringResource(R.string.word_wrap_off),
+                                        tint =
+                                            if (wordWrapEnabled) MaterialTheme.colorScheme.primary
+                                            else MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
+
                                 IconButton(
                                     onClick = {
                                         if (
@@ -133,6 +155,7 @@ class MemoryLoggerActivity : BaseActivity() {
                 ) { innerPadding ->
                     MemoryLoggerContent(
                         leafViewModel = leafViewModel,
+                        wordWrapEnabled = wordWrapEnabled,
                         modifier = Modifier.padding(innerPadding),
                     )
                 }

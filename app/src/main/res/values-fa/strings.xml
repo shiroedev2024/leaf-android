@@ -156,4 +156,20 @@
     <string name="outbound_global_auto">\uD83C\uDF10 خودکار جهانی</string>
     <string name="outbound_auto_suffix"> (خودکار)</string>
     <string name="ping_individual">پینگ گره</string>
+    
+    <string name="get_a_provider">دریافت ارائه‌دهنده</string>
+    <string name="welcome_lite_vpn">به Lite VPN خوش آمدید</string>
+    <string name="welcome_lite_vpn_desc">با اضافه کردن یک شناسه مشتری شروع کنید تا از سرویس استفاده کنید. اگر هنوز ارائه‌دهنده ندارید، می‌توانید فوراً از طریق ربات رسمی تلگرام ما یکی دریافت کنید.</string>
+    <string name="no_subscription_found">اشتراکی یافت نشد</string>
+    <string name="no_subscription_desc">لطفاً یک شناسه مشتری معتبر در بالا ارائه دهید. ارائه‌دهنده ندارید؟ یک شناسه مشتری امن فوراً از طریق ربات رسمی تلگرام Lite VPN دریافت کنید.</string>
+    <string name="open_telegram_bot">باز کردن ربات تلگرام</string>
+    <string name="lan_bypass_warning">نکته: تغییر هر تنظیمات عبور از LAN، مسیریابی اصلی سیستم را تغییر می‌دهد. باید اتصال VPN را کاملاً قطع و دوباره متصل شوید تا این تغییرات اعمال شوند.</string>
+    <string name="geoip_geosite_hint">ورودی‌های GeoIP باید کدهای کشور ISO دو حرفی باشند (مثلاً ir، ru، cn). ورودی‌های Geosite باید دسته‌های geosite v2ray باشند (مثلاً category-ads).</string>
+    <string name="quick_presets">پیش‌تنظیم‌های سریع</string>
+    <string name="bypass_iran">عبور از ایران</string>
+    <string name="bypass_russia">عبور از روسیه</string>
+    <string name="bypass_china">عبور از چین</string>
+    <string name="block_ads">مسدود کردن تبلیغات</string>
+    <string name="word_wrap_on">پیچش: روشن</string>
+    <string name="word_wrap_off">پیچش: خاموش</string>
 </resources>

@@ -16,14 +16,14 @@
     <string name="vpn_service_off">Leaf VPN Off</string>
     <string name="clipboard_no_valid_client_id">No valid client ID in clipboard</string>
     <string name="clipboard_empty">Clipboard empty</string>
-    <string name="import_profile_clipboard">Import from clipboard</string>
-    <string name="import_profile">Import client ID</string>
-    <string name="import_profile_dialog">The client ID found in clipboard. Do you want to import it?</string>
+    <string name="import_profile_clipboard">Import from Clipboard</string>
+    <string name="import_profile">Import Client ID</string>
+    <string name="import_profile_dialog">A Client ID was found in your clipboard. Do you want to import it?</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="vpn_service_reload">Leaf VPN reload</string>
     <string name="warning_client_id">Missing Client ID</string>
-    <string name="warning_client_id_text">Please enter a client ID first and then tap \"Update\" button.</string>
+    <string name="warning_client_id_text">Please enter a Client ID first and then tap the \"Update\" button.</string>
     <string name="close">Close</string>
     <string name="client_id">Client ID</string>
     <string name="update">Update</string>
@@ -31,7 +31,7 @@
     <string name="remaining_traffic">Remaining traffic</string>
     <string name="expire_time">Expiration</string>
     <string name="outbound_error">Error loading outbounds</string>
-    <string name="outbound_initial">Start to see outbounds</string>
+    <string name="outbound_initial">Connect to the VPN to view available nodes.</string>
     <string name="stop_first_warning">Need to stop leaf first</string>
     <string name="subscription_expired_warning">Your subscription has expired. Maybe no connection</string>
     <string name="traffic_limit_warning">Your traffic limit has been reached. Maybe no connection</string>
@@ -159,4 +159,21 @@
     <string name="leafsub_passphrase">Passphrase (optional)</string>
     <string name="leafsub_wrong_extension">Only .leafsub files are supported.</string>
     <string name="import_leafsub_action">Import</string>
+    
+    <string name="telegram_bot_url" translatable="false">https://t.me/offical_lite_vpn_bot</string>
+    <string name="get_a_provider">Get a Provider</string>
+    <string name="welcome_lite_vpn">Welcome to Lite VPN</string>
+    <string name="welcome_lite_vpn_desc">Begin by adding a Client ID to start using the service. If you don\'t have a provider yet, you can obtain one instantly through our official Telegram bot.</string>
+    <string name="no_subscription_found">No Subscription Found</string>
+    <string name="no_subscription_desc">Please provide a valid Client ID above. Don\'t have a provider? Get a secure Client ID instantly via our official Lite VPN Telegram Bot.</string>
+    <string name="open_telegram_bot">Open Telegram Bot</string>
+    <string name="lan_bypass_warning">Note: Changing any LAN Bypass settings modifies core system routing. You must completely Disconnect and Reconnect the VPN for these changes to take effect.</string>
+    <string name="geoip_geosite_hint">GeoIP entries must be 2-letter ISO country codes (e.g., ir, ru, cn). Geosite entries must be v2ray geosite categories (e.g., category-ads).</string>
+    <string name="quick_presets">Quick Presets</string>
+    <string name="bypass_iran">Bypass Iran</string>
+    <string name="bypass_russia">Bypass Russia</string>
+    <string name="bypass_china">Bypass China</string>
+    <string name="block_ads">Block Ads</string>
+    <string name="word_wrap_on">Wrap: ON</string>
+    <string name="word_wrap_off">Wrap: OFF</string>
 </resources>

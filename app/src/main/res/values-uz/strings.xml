@@ -156,4 +156,20 @@
     <string name="leafsub_passphrase">Parol iborasi (ixtiyoriy)</string>
     <string name="leafsub_wrong_extension">Faqat .leafsub fayllari qo‘llab-quvvatlanadi.</string>
     <string name="import_leafsub_action">Import qilish</string>
+    
+    <string name="get_a_provider">Ta\'minotchini oling</string>
+    <string name="welcome_lite_vpn">Lite VPN\'ga xush kelibsiz</string>
+    <string name="welcome_lite_vpn_desc">Xizmatdan foydalanishni boshlash uchun avval mijoz ID si qo\'shing. Agar sizda hali ta\'minotchisi bo\'lmasa, rasmiy Telegram botimiz orqali darhol olishingiz mumkin.</string>
+    <string name="no_subscription_found">Obuna topilmadi</string>
+    <string name="no_subscription_desc">Iltimos, yuqorida to\'g\'ri mijoz ID sini taqdim eting. Ta\'minotchisi yo\'qmi? Rasmiy Lite VPN Telegram botimiz orqali xavfsiz mijoz ID sini darhol oling.</string>
+    <string name="open_telegram_bot">Telegram botini ochish</string>
+    <string name="lan_bypass_warning">Eslatma: Har qanday LAN chetlash sozlamasini o\'zgartirish tizimning asosiy marshrutizatsiyasini o\'zgartiradi. Bu o\'zgarishlarni qo\'llash uchun VPNni to\'liq uzib va qayta ulashingiz kerak.</string>
+    <string name="geoip_geosite_hint">GeoIP yozuvlari 2 harfli ISO mamlakat kodlari bo\'lishi kerak (masalan, ir, ru, cn). Geosite yozuvlari v2ray geosite toifalari bo\'lishi kerak (masalan, category-ads).</string>
+    <string name="quick_presets">Tezkor sozlamalar</string>
+    <string name="bypass_iran">Eronni chetlash</string>
+    <string name="bypass_russia">Rossiyani chetlash</string>
+    <string name="bypass_china">Xitoy chetlash</string>
+    <string name="block_ads">Reklamalarni bloklash</string>
+    <string name="word_wrap_on">O\'rash: YOQILGAN</string>
+    <string name="word_wrap_off">O\'rash: O\'CHIRILGAN</string>
 </resources>

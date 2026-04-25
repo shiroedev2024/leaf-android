@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.screen
 
@@ -277,10 +277,48 @@ fun ProfileContent(
                             }
 
                             if (preferences.lastUpdateTime == null) {
-                                MessageComponent(
-                                    type = MessageType.INFO,
-                                    message = stringResource(R.string.client_id_help),
-                                )
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors =
+                                        CardDefaults.cardColors(
+                                            containerColor =
+                                                MaterialTheme.colorScheme.surfaceVariant
+                                        ),
+                                ) {
+                                    Column(
+                                        modifier = Modifier.padding(24.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.no_subscription_found),
+                                            style = MaterialTheme.typography.titleMedium,
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = stringResource(R.string.no_subscription_desc),
+                                            style = MaterialTheme.typography.bodySmall,
+                                            textAlign =
+                                                androidx.compose.ui.text.style.TextAlign.Center,
+                                        )
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                        Button(
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                            context.getString(
+                                                                R.string.telegram_bot_url
+                                                            )
+                                                        ),
+                                                    )
+                                                )
+                                            }
+                                        ) {
+                                            Text(stringResource(R.string.open_telegram_bot))
+                                        }
+                                    }
+                                }
                             } else {
                                 Card(
                                     modifier = Modifier.fillMaxWidth(),

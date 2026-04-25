@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.viewmodel
 
@@ -86,6 +86,7 @@ class LeafViewModel : ViewModel() {
     private var loggingJob: Job? = null
     private var pingJob: Job? = null
     private var autoPingJob: Job? = null
+    private var startTimeoutJob: Job? = null
     private var leafApi: ApiClient? = null
 
     private var _isRefreshingPings: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -102,13 +103,11 @@ class LeafViewModel : ViewModel() {
 
             override fun onStartSuccess() {
                 _leafState.value = LeafState.Started
+                startTimeoutJob?.cancel()
 
                 viewModelScope.launch {
                     _outboundState.value = OutboundState.Loading
                     getOutboundList()
-
-                    val initialPings = _outbounds.value.associate { it.name to Double.NaN }
-                    _pingValues.value = initialPings
 
                     autoPingJob?.cancel()
                     autoPingJob = launch {
@@ -122,6 +121,7 @@ class LeafViewModel : ViewModel() {
 
             override fun onStartFailed(message: String?) {
                 _leafState.value = LeafState.Error(message.orEmpty())
+                startTimeoutJob?.cancel()
             }
 
             override fun onReloadSuccess() {
@@ -150,6 +150,7 @@ class LeafViewModel : ViewModel() {
             override fun onStopSuccess() {
                 _leafState.value = LeafState.Stopped
                 _outboundState.value = OutboundState.Initial
+                startTimeoutJob?.cancel()
 
                 pingJob?.cancel()
                 autoPingJob?.cancel()
@@ -157,6 +158,7 @@ class LeafViewModel : ViewModel() {
 
             override fun onStopFailed(message: String?) {
                 _leafState.value = LeafState.Error(message.orEmpty())
+                startTimeoutJob?.cancel()
             }
         }
 
@@ -183,10 +185,10 @@ class LeafViewModel : ViewModel() {
                 _outboundState.value = OutboundState.Initial
                 _preferencesState.value = PreferencesState.Initial
                 _outbounds.value.clear()
-                _pingValues.value = emptyMap()
 
                 stopLogger()
                 leafApi = null
+                startTimeoutJob?.cancel()
 
                 // Cancel ping jobs
                 pingJob?.cancel()
@@ -239,6 +241,10 @@ class LeafViewModel : ViewModel() {
 
     fun clearPendingImportUri() {
         _pendingImportUri.value = null
+    }
+
+    fun isGroupTag(tag: String): Boolean {
+        return tag == "OUT" || tag == "AUTO" || tag.endsWith("_AUTO") || tag.length == 2
     }
 
     fun getOutboundList(tag: String? = null) {
@@ -385,11 +391,23 @@ class LeafViewModel : ViewModel() {
     fun startLeaf() {
         _leafState.value = LeafState.Loading
         ServiceManagement.getInstance().startLeaf()
+
+        startTimeoutJob?.cancel()
+        startTimeoutJob =
+            viewModelScope.launch {
+                delay(35000)
+                if (_leafState.value != LeafState.Started) {
+                    Log.w("LeafAndroid", "Connection timed out after 35 seconds. Aborting.")
+                    _leafState.value = LeafState.Error("Connection timed out. Please try again.")
+                    ServiceManagement.getInstance().stopLeaf()
+                }
+            }
     }
 
     fun stopLeaf() {
         _leafState.value = LeafState.Loading
         ServiceManagement.getInstance().stopLeaf()
+        startTimeoutJob?.cancel()
     }
 
     fun updateSubscription(clientId: String) {
@@ -442,13 +460,16 @@ class LeafViewModel : ViewModel() {
 
                 try {
                     val currentOutbounds = _outbounds.value.toList()
-                    val initialPings =
-                        currentOutbounds.associate { it.name to Double.NaN }.toMutableMap()
-                    _pingValues.value = initialPings
+                    val outboundsToPing = currentOutbounds.filter { !isGroupTag(it.name) }
+
+                    // Only set NaN for nodes we are actually pinging, preserve cached
+                    val nextPings = _pingValues.value.toMutableMap()
+                    outboundsToPing.forEach { nextPings[it.name] = Double.NaN }
+                    _pingValues.value = nextPings
 
                     // Ping each outbound in parallel
                     val childJobs =
-                        currentOutbounds.map { outbound ->
+                        outboundsToPing.map { outbound ->
                             launch {
                                 val pingValue =
                                     try {
@@ -459,8 +480,8 @@ class LeafViewModel : ViewModel() {
 
                                         // Use TCP first, fallback to UDP
                                         when {
-                                            health?.tcpMs != null -> health.tcpMs
-                                            health?.udpMs != null -> health.udpMs
+                                            health?.tcpMs != null -> health.tcpMs.toDouble()
+                                            health?.udpMs != null -> health.udpMs.toDouble()
                                             else -> null
                                         }
                                     } catch (e: Exception) {
@@ -493,6 +514,8 @@ class LeafViewModel : ViewModel() {
     }
 
     fun pingOutbound(outboundName: String) {
+        if (isGroupTag(outboundName)) return
+
         viewModelScope.launch {
             // Set to loading
             val currentPings = _pingValues.value.toMutableMap()
@@ -505,8 +528,8 @@ class LeafViewModel : ViewModel() {
 
                 val pingValue =
                     when {
-                        health?.tcpMs != null -> health.tcpMs
-                        health?.udpMs != null -> health.udpMs
+                        health?.tcpMs != null -> health.tcpMs.toDouble()
+                        health?.udpMs != null -> health.udpMs.toDouble()
                         else -> null
                     }
 

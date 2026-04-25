@@ -156,4 +156,20 @@
     <string name="outbound_global_auto">\uD83C\uDF10 Auto Global</string>
     <string name="outbound_auto_suffix"> (Auto)</string>
     <string name="ping_individual">Hacer ping al nodo</string>
+    
+    <string name="get_a_provider">Obtener un Proveedor</string>
+    <string name="welcome_lite_vpn">Bienvenido a Lite VPN</string>
+    <string name="welcome_lite_vpn_desc">Comienza agregando un ID de cliente para empezar a usar el servicio. Si aún no tienes un proveedor, puedes obtener uno instantáneamente a través de nuestro bot oficial de Telegram.</string>
+    <string name="no_subscription_found">No Se Encontró Suscripción</string>
+    <string name="no_subscription_desc">Por favor proporciona un ID de cliente válido arriba. ¿No tienes proveedor? Obtén un ID de cliente seguro instantáneamente a través de nuestro bot oficial de Telegram de Lite VPN.</string>
+    <string name="open_telegram_bot">Abrir Bot de Telegram</string>
+    <string name="lan_bypass_warning">Nota: Cambiar cualquier configuración de Omisión LAN modifica el enrutamiento central del sistema. Debes Desconectar y Reconectar completamente la VPN para que estos cambios surtan efecto.</string>
+    <string name="geoip_geosite_hint">Las entradas GeoIP deben ser códigos de país ISO de 2 letras (ej. ir, ru, cn). Las entradas Geosite deben ser categorías geosite de v2ray (ej. category-ads).</string>
+    <string name="quick_presets">Preajustes Rápidos</string>
+    <string name="bypass_iran">Omitir Irán</string>
+    <string name="bypass_russia">Omitir Rusia</string>
+    <string name="bypass_china">Omitir China</string>
+    <string name="block_ads">Bloquear Anuncios</string>
+    <string name="word_wrap_on">Ajuste: ENCENDIDO</string>
+    <string name="word_wrap_off">Ajuste: APAGADO</string>
 </resources>

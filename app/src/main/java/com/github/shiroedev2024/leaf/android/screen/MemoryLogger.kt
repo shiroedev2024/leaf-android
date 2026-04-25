@@ -16,15 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.screen
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +47,11 @@ import com.github.shiroedev2024.leaf.android.ui.theme.MemoryLoggerBackground
 import com.github.shiroedev2024.leaf.android.viewmodel.LeafViewModel
 
 @Composable
-fun MemoryLoggerContent(leafViewModel: LeafViewModel, modifier: Modifier = Modifier) {
+fun MemoryLoggerContent(
+    leafViewModel: LeafViewModel,
+    wordWrapEnabled: Boolean,
+    modifier: Modifier = Modifier,
+) {
     val serviceState by leafViewModel.serviceState.observeAsState()
     val leafState by leafViewModel.leafState.observeAsState()
     val logs by leafViewModel.memoryLogs.collectAsState()
@@ -82,7 +88,9 @@ fun MemoryLoggerContent(leafViewModel: LeafViewModel, modifier: Modifier = Modif
                             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 0.dp),
                             reverseLayout = true,
                         ) {
-                            items(logs.reversed()) { log -> LogItem(log = log) }
+                            items(logs.reversed()) { log ->
+                                LogItem(log = log, wordWrapEnabled = wordWrapEnabled)
+                            }
                         }
                         LaunchedEffect(logs) { lazyListState.animateScrollToItem(index = 0) }
                     }
@@ -132,14 +140,20 @@ fun MemoryLoggerContent(leafViewModel: LeafViewModel, modifier: Modifier = Modif
 }
 
 @Composable
-fun LogItem(log: String) {
+fun LogItem(log: String, wordWrapEnabled: Boolean) {
+    val scrollState = rememberScrollState()
     Surface(
         color = MemoryLoggerBackground,
         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
     ) {
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier =
+                Modifier.padding(8.dp)
+                    .then(
+                        if (!wordWrapEnabled) Modifier.horizontalScroll(scrollState) else Modifier
+                    ),
             text = log,
+            softWrap = wordWrapEnabled,
             style = MaterialTheme.typography.bodyMedium,
             color = log.getLogColor(),
         )

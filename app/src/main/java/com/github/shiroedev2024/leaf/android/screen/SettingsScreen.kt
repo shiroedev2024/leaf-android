@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.screen
 
@@ -24,6 +24,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -246,6 +247,13 @@ fun LeafSettingsContent(
                 enabled = prefs.bypassLan,
             )
 
+            if (prefs.bypassLan) {
+                MessageComponent(
+                    type = MessageType.WARNING,
+                    message = stringResource(R.string.lan_bypass_warning),
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
 
             SwitchPreference(
@@ -289,6 +297,73 @@ fun LeafSettingsContent(
         Spacer(modifier = Modifier.height(8.dp))
 
         PreferenceCategory(title = stringResource(R.string.routing_rules)) {
+            MessageComponent(
+                type = MessageType.INFO,
+                message = stringResource(R.string.geoip_geosite_hint),
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(R.string.quick_presets),
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            ) {
+                item {
+                    ElevatedSuggestionChip(
+                        onClick = {
+                            val g = prefs.bypassGeoipList.toMutableList()
+                            if (!g.contains("ir")) g.add("ir")
+                            val s = prefs.bypassGeositeList.toMutableList()
+                            if (!s.contains("ir")) s.add("ir")
+                            prefs = prefs.copy(bypassGeoipList = g, bypassGeositeList = s)
+                            onPreferencesChanged(prefs)
+                        },
+                        label = { Text(stringResource(R.string.bypass_iran)) },
+                    )
+                }
+                item {
+                    ElevatedSuggestionChip(
+                        onClick = {
+                            val g = prefs.bypassGeoipList.toMutableList()
+                            if (!g.contains("ru")) g.add("ru")
+                            val s = prefs.bypassGeositeList.toMutableList()
+                            if (!s.contains("ru")) s.add("ru")
+                            prefs = prefs.copy(bypassGeoipList = g, bypassGeositeList = s)
+                            onPreferencesChanged(prefs)
+                        },
+                        label = { Text(stringResource(R.string.bypass_russia)) },
+                    )
+                }
+                item {
+                    ElevatedSuggestionChip(
+                        onClick = {
+                            val g = prefs.bypassGeoipList.toMutableList()
+                            if (!g.contains("cn")) g.add("cn")
+                            val s = prefs.bypassGeositeList.toMutableList()
+                            if (!s.contains("cn")) s.add("cn")
+                            prefs = prefs.copy(bypassGeoipList = g, bypassGeositeList = s)
+                            onPreferencesChanged(prefs)
+                        },
+                        label = { Text(stringResource(R.string.bypass_china)) },
+                    )
+                }
+                item {
+                    ElevatedSuggestionChip(
+                        onClick = {
+                            val s = prefs.rejectGeositeList.toMutableList()
+                            if (!s.contains("category-ads")) s.add("category-ads")
+                            prefs = prefs.copy(rejectGeositeList = s)
+                            onPreferencesChanged(prefs)
+                        },
+                        label = { Text(stringResource(R.string.block_ads)) },
+                    )
+                }
+            }
+
             ListEditorPreference(
                 title = stringResource(R.string.bypass_geoip_list),
                 description = stringResource(R.string.bypass_geoip_list_description),

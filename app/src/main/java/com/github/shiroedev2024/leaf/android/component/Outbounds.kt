@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.component
 
@@ -93,12 +93,16 @@ fun OutboundsScreen(leafViewModel: LeafViewModel, modifier: Modifier = Modifier)
                     IconButton(
                         onClick = { leafViewModel.refreshPings() },
                         enabled = isRefreshingPings == false,
+                        modifier =
+                            if (selectedSubgroupTag != null) Modifier else Modifier.size(0.dp),
                     ) {
-                        Icon(
-                            imageVector =
-                                ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
-                            contentDescription = stringResource(R.string.refresh_pings),
-                        )
+                        if (selectedSubgroupTag != null) {
+                            Icon(
+                                imageVector =
+                                    ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
+                                contentDescription = stringResource(R.string.refresh_pings),
+                            )
+                        }
                     }
                 }
 
@@ -159,7 +163,9 @@ fun OutboundCard(
     onSelect: () -> Unit,
     onPing: () -> Unit,
     modifier: Modifier = Modifier,
+    leafViewModel: LeafViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
+    val isGroup = leafViewModel.isGroupTag(outboundInfo.name)
     Card(
         modifier = modifier.fillMaxWidth().clickable(onClick = onSelect).padding(vertical = 8.dp),
         shape = RoundedCornerShape(12.dp),
@@ -223,20 +229,29 @@ fun OutboundCard(
                 }
             }
 
-            // Ping section
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                PingIndicator(pingMs = pingMs, isSelected = outboundInfo.isSelected)
+            if (isGroup) {
+                Icon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.baseline_chevron_right_24),
+                    contentDescription = null,
+                    tint = contentColor.copy(alpha = 0.6f),
+                )
+            } else {
+                // Ping section
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    PingIndicator(pingMs = pingMs, isSelected = outboundInfo.isSelected)
 
-                Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
 
-                IconButton(onClick = { onPing() }, modifier = Modifier.size(32.dp)) {
-                    Icon(
-                        imageVector =
-                            ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
-                        contentDescription = stringResource(R.string.ping_individual),
-                        tint = contentColor.copy(alpha = 0.6f),
-                        modifier = Modifier.size(16.dp),
-                    )
+                    IconButton(onClick = { onPing() }, modifier = Modifier.size(32.dp)) {
+                        Icon(
+                            imageVector =
+                                ImageVector.vectorResource(id = R.drawable.baseline_refresh_24),
+                            contentDescription = stringResource(R.string.ping_individual),
+                            tint = contentColor.copy(alpha = 0.6f),
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
                 }
             }
         }

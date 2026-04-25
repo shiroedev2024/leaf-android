@@ -156,4 +156,20 @@
     <string name="leafsub_passphrase">Fras sandi (opsional)</string>
     <string name="leafsub_wrong_extension">Hanya file .leafsub yang didukung.</string>
     <string name="import_leafsub_action">Impor</string>
+    
+    <string name="get_a_provider">Dapatkan Penyedia</string>
+    <string name="welcome_lite_vpn">Selamat Datang di Lite VPN</string>
+    <string name="welcome_lite_vpn_desc">Mulailah dengan menambahkan ID klien untuk mulai menggunakan layanan. Jika Anda belum memiliki penyedia, Anda bisa mendapatkannya secara instan melalui bot Telegram resmi kami.</string>
+    <string name="no_subscription_found">Tidak Ditemukan Langganan</string>
+    <string name="no_subscription_desc">Harap berikan ID klien yang valid di atas. Tidak punya penyedia? Dapatkan ID klien yang aman secara instan melalui bot Telegram resmi Lite VPN kami.</string>
+    <string name="open_telegram_bot">Buka Bot Telegram</string>
+    <string name="lan_bypass_warning">Catatan: Mengubah pengaturan Bypass LAN apapun memodifikasi routing sistem inti. Anda harus Memutus dan Menghubungkan kembali VPN sepenuhnya agar perubahan ini berlaku.</string>
+    <string name="geoip_geosite_hint">Entri GeoIP harus berupa kode negara ISO 2 huruf (mis. ir, ru, cn). Entri Geosite harus berupa kategori geosite v2ray (mis. category-ads).</string>
+    <string name="quick_presets">Preset Cepat</string>
+    <string name="bypass_iran">Bypass Iran</string>
+    <string name="bypass_russia">Bypass Rusia</string>
+    <string name="bypass_china">Bypass China</string>
+    <string name="block_ads">Blokir Iklan</string>
+    <string name="word_wrap_on">Wrap: NYALA</string>
+    <string name="word_wrap_off">Wrap: MATI</string>
 </resources>

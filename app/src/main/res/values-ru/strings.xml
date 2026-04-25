@@ -156,4 +156,20 @@
     <string name="outbound_global_auto">\uD83C\uDF10 Глобальный Авто</string>
     <string name="outbound_auto_suffix"> (Авто)</string>
     <string name="ping_individual">Пинг узла</string>
+    
+    <string name="get_a_provider">Получить Провайдера</string>
+    <string name="welcome_lite_vpn">Добро пожаловать в Lite VPN</string>
+    <string name="welcome_lite_vpn_desc">Начните с добавления идентификатора клиента для начала использования службы. Если у вас еще нет провайдера, вы можете получить его мгновенно через нашего официального бота Telegram.</string>
+    <string name="no_subscription_found">Подписка Не Найдена</string>
+    <string name="no_subscription_desc">Пожалуйста, предоставьте действительный идентификатор клиента выше. Нет провайдера? Получите безопасный идентификатор клиента мгновенно через наш официальный бот Telegram Lite VPN.</string>
+    <string name="open_telegram_bot">Открыть Бот Telegram</string>
+    <string name="lan_bypass_warning">Примечание: Изменение любых настроек обхода LAN изменяет основную маршрутизацию системы. Вы должны полностью Отключить и Переподключить VPN, чтобы эти изменения вступили в силу.</string>
+    <string name="geoip_geosite_hint">Записи GeoIP должны быть двухбуквенными кодами стран ISO (например, ir, ru, cn). Записи Geosite должны быть категориями geosite v2ray (например, category-ads).</string>
+    <string name="quick_presets">Быстрые Пресеты</string>
+    <string name="bypass_iran">Обход Ирана</string>
+    <string name="bypass_russia">Обход России</string>
+    <string name="bypass_china">Обход Китая</string>
+    <string name="block_ads">Блокировать Рекламу</string>
+    <string name="word_wrap_on">Перенос: ВКЛ</string>
+    <string name="word_wrap_off">Перенос: ВЫКЛ</string>
 </resources>

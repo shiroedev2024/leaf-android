@@ -156,4 +156,20 @@
     <string name="leafsub_passphrase">عبارة مرور (اختياري)</string>
     <string name="leafsub_wrong_extension">يتم دعم ملفات .leafsub فقط.</string>
     <string name="import_leafsub_action">استيراد</string>
+    
+    <string name="get_a_provider">الحصول على مزود</string>
+    <string name="welcome_lite_vpn">مرحبًا بك في Lite VPN</string>
+    <string name="welcome_lite_vpn_desc">ابدأ بإضافة معرف العميل لبدء استخدام الخدمة. إذا لم يكن لديك مزود بعد، يمكنك الحصول على واحد فورًا عبر بوت Telegram الرسمي الخاص بنا.</string>
+    <string name="no_subscription_found">لم يتم العثور على اشتراك</string>
+    <string name="no_subscription_desc">يرجى توفير معرف عميل صالح أعلاه. ليس لديك مزود؟ احصل على معرف عميل آمن فورًا عبر بوت Lite VPN Telegram الرسمي.</string>
+    <string name="open_telegram_bot">فتح بوت Telegram</string>
+    <string name="lan_bypass_warning">ملاحظة: تغيير أي إعدادات تجاوز LAN يعدل التوجيه الأساسي للنظام. يجب عليك قطع الاتصال وإعادة الاتصال بالكامل بالـ VPN لتطبيق هذه التغييرات.</string>
+    <string name="geoip_geosite_hint">إدخالات GeoIP يجب أن تكون رموز ISO من حرفين (مثل ir، ru، cn). إدخالات Geosite يجب أن تكون فئات v2ray geosite (مثل category-ads).</string>
+    <string name="quick_presets">الإعدادات السريعة</string>
+    <string name="bypass_iran">تجاوز إيران</string>
+    <string name="bypass_russia">تجاوز روسيا</string>
+    <string name="bypass_china">تجاوز الصين</string>
+    <string name="block_ads">حظر الإعلانات</string>
+    <string name="word_wrap_on">التفاف: تشغيل</string>
+    <string name="word_wrap_off">التفاف: إيقاف</string>
 </resources>

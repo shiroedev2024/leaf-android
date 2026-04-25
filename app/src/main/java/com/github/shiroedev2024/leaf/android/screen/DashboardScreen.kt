@@ -16,20 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * Copyright (c) 2025 Shiroe Dev <shiroedev@proton.me>
+ * Copyright (c) 2025 SurfShield <info@surfshield.org>
  */
 package com.github.shiroedev2024.leaf.android.screen
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -152,14 +162,75 @@ fun DashboardContent(
                             }
 
                             if (preferences.lastUpdateTime == null) {
-                                MessageComponent(
-                                    type = MessageType.INFO,
-                                    message = stringResource(R.string.no_subscription),
-                                    actionLabel = stringResource(R.string.client_id),
-                                    action = onNavigateToProfile,
-                                    actionIcon =
-                                        ImageVector.vectorResource(id = R.drawable.baseline_add_24),
-                                )
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors =
+                                        CardDefaults.cardColors(
+                                            containerColor =
+                                                MaterialTheme.colorScheme.surfaceVariant
+                                        ),
+                                ) {
+                                    Column(
+                                        modifier = Modifier.padding(24.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ) {
+                                        Icon(
+                                            imageVector =
+                                                ImageVector.vectorResource(
+                                                    id = R.drawable.baseline_rocket_launch_24
+                                                ),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(48.dp).padding(bottom = 12.dp),
+                                            tint = MaterialTheme.colorScheme.primary,
+                                        )
+                                        Text(
+                                            text = stringResource(R.string.welcome_lite_vpn),
+                                            style = MaterialTheme.typography.titleLarge,
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = stringResource(R.string.welcome_lite_vpn_desc),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            textAlign =
+                                                androidx.compose.ui.text.style.TextAlign.Center,
+                                        )
+                                        Spacer(modifier = Modifier.height(16.dp))
+
+                                        Button(
+                                            onClick = onNavigateToProfile,
+                                            modifier = Modifier.fillMaxWidth(),
+                                        ) {
+                                            Text(stringResource(R.string.client_id))
+                                        }
+                                        Button(
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                            context.getString(
+                                                                R.string.telegram_bot_url
+                                                            )
+                                                        ),
+                                                    )
+                                                )
+                                            },
+                                            modifier = Modifier.fillMaxWidth(),
+                                            colors =
+                                                ButtonDefaults.buttonColors(
+                                                    containerColor =
+                                                        androidx.compose.ui.graphics.Color(
+                                                            0xFF0088CC
+                                                        )
+                                                ),
+                                        ) {
+                                            Text(
+                                                stringResource(R.string.get_a_provider),
+                                                color = androidx.compose.ui.graphics.Color.White,
+                                            )
+                                        }
+                                    }
+                                }
                             } else {
                                 val time = preferences.expireTime
                                 val traffic = preferences.traffic

@@ -156,4 +156,20 @@
     <string name="leafsub_passphrase">Parola ifadesi (isteğe bağlı)</string>
     <string name="leafsub_wrong_extension">Yalnızca .leafsub dosyaları desteklenir.</string>
     <string name="import_leafsub_action">İçe aktar</string>
+    
+    <string name="get_a_provider">Sağlayıcı Al</string>
+    <string name="welcome_lite_vpn">Lite VPN\'e Hoş Geldiniz</string>
+    <string name="welcome_lite_vpn_desc">Hizmeti kullanmaya başlamak için önce bir müşteri kimliği ekleyerek başlayın. Henüz sağlayıcınız yoksa, resmi Telegram botumuz üzerinden anında bir tane edinebilirsiniz.</string>
+    <string name="no_subscription_found">Abonelik Bulunamadı</string>
+    <string name="no_subscription_desc">Lütfen yukarıya geçerli bir müşteri kimliği sağlayın. Sağlayıcınız yok mu? Resmi Lite VPN Telegram botumuz üzerinden güvenli bir müşteri kimliğini anında edinin.</string>
+    <string name="open_telegram_bot">Telegram Botunu Aç</string>
+    <string name="lan_bypass_warning">Not: Herhangi bir LAN Atlama ayarını değiştirmek çekirdek sistem yönlendirmesini değiştirir. Bu değişikliklerin geçerli olması için VPN\'i tamamen Kesip Yeniden Bağlamanız gerekir.</string>
+    <string name="geoip_geosite_hint">GeoIP girişleri 2 harfli ISO ülke kodları olmalıdır (ör. ir, ru, cn). Geosite girişleri v2ray geosite kategorileri olmalıdır (ör. category-ads).</string>
+    <string name="quick_presets">Hızlı Ön Ayarlar</string>
+    <string name="bypass_iran">İran\'ı Atla</string>
+    <string name="bypass_russia">Rusya\'yı Atla</string>
+    <string name="bypass_china">Çin\'i Atla</string>
+    <string name="block_ads">Reklamları Engelle</string>
+    <string name="word_wrap_on">Sarma: AÇIK</string>
+    <string name="word_wrap_off">Sarma: KAPALI</string>
 </resources>
