@@ -134,7 +134,7 @@
     <string name="load_defaults_description">بازنشانی همه تنظیمات به مقادیر پیش‌فرض.</string>
     <string name="load_defaults_confirm_title">بارگذاری تنظیمات پیش‌فرض؟</string>
     <string name="load_defaults_confirm_message">این کار همه تنظیمات را به مقادیر پیش‌فرض بازنشانی می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
-    <string name="release_notes">افزودن پروتکل Stealth جدید\nافزودن پروتکل SSH جدید\nافزودن روش جدید برای دریافت شناسه مشتری برای کاربران روسی\nبهبود سرعت‌های اتصال</string>
+    <string name="release_notes">افزودن پروتکل SplitHttp جدید</string>
     <string name="app_updates">به‌روزرسانی‌های برنامه</string>
     <string name="check_for_updates">بررسی به‌روزرسانی‌ها</string>
     <string name="check_for_updates_description">به‌ صورت دستی بررسی کنید که آیا نسخه جدیدتری از VPN برگ موجود است یا خیر.</string>

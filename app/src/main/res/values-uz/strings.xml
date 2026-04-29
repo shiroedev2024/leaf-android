@@ -134,7 +134,7 @@
     <string name="load_defaults_description">Barcha sozlamalarni standart qiymatlarga qaytarish.</string>
     <string name="load_defaults_confirm_title">Standart sozlamalarni yuklash?</string>
     <string name="load_defaults_confirm_message">Bu barcha sozlamalarni standart qiymatlariga qaytaradi. Davom ettirishga ishonchingiz komilmi?</string>
-    <string name="release_notes">Yangi Stealth protokolini qoʻshish\nYangi SSH protokolini qoʻshish\nRossiya foydalanuvchilari uchun mijoz ID\'sini olish uchun yangi usul qoʻshish\nUlanish tezliklarini yaxshilash</string>
+    <string name="release_notes">Yangi SplitHttp protokolini qoʻshish</string>
     <string name="app_updates">Ilova Yangilanishlari</string>
     <string name="check_for_updates">Yangilanishlarni Tekshirish</string>
     <string name="check_for_updates_description">Leaf VPN ning yangiroq versiyasi mavjudligini qo\'lda tekshiring.</string>
