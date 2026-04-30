@@ -2,7 +2,7 @@ name: Android Release
 
 on:
   push:
-    tags: 
+    tags:
       - 'v*.*.*'  # Only trigger on version tags like v2.2.0
   workflow_dispatch:  # Allow manual trigger
 
@@ -30,23 +30,9 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      
-      # Cargo cache
-      - name: Cache Cargo registry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-registry-
 
-      - name: Cache Cargo git
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-git-
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
 
       - name: Create release.properties
         env:
