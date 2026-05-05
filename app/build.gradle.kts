@@ -17,7 +17,7 @@ val enableApkSplits: Boolean = (project.findProperty("apkSplits") as? String)?.t
 
 android {
     namespace = "com.github.shiroedev2024.leaf.android"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         val properties = Properties()
